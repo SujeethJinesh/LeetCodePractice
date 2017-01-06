@@ -3,10 +3,6 @@
  */
 public class HammingDistance {
 
-    public static void main(String[] args) {
-        System.out.println(hammingDistance(1, 4));
-    }
-
     /*
      * This program is to get the hamming distance between any two integers.
      * Using XOR and bitcount (both O(1) ops) we can simply find the differing
