@@ -23,15 +23,14 @@ public class MakeChange {
         if (index >= coins.length) {
             return 0;
         }
-
-        int numWays = 0;
-        int amountWithCoin = 0;
-
         String key = amount + "-" + index;
 
         if (memo.containsKey(key)) {
             return memo.get(key);
         }
+
+        int numWays = 0;
+        int amountWithCoin = 0;
 
         while (amountWithCoin <= amount) {
             numWays += coinChange(coins, amount - amountWithCoin, index + 1, memo);
