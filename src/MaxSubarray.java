@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * Created by admin on 1/13/17.
  */
@@ -26,8 +28,7 @@ public class MaxSubarray {
         }
         int runningSum = 0;
         int currentMax = Integer.MIN_VALUE;
-
-        //need to run through each array
+//        ArrayList<Integer> list = new ArrayList<>(arr.length);
 
         for (int i : arr) {
 
@@ -35,6 +36,7 @@ public class MaxSubarray {
 
             if (runningSum > currentMax) {
                 currentMax = runningSum;
+
             }
 
             if (runningSum < 0) {
