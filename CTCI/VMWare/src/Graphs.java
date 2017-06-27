@@ -317,4 +317,80 @@ public class Graphs {
         charArray[j] = temp;
         return String.valueOf(charArray);
     }
+
+    public int minTreeHeight(TreeNode root) {
+        return (root == null) ? 0 : Math.min(minTreeHeight(root.left) + 1, minTreeHeight(root.right) + 1);
+    }
+
+    public TreeNode makeBSTFromPreOrder(int pre[]) {
+        int size = pre.length;
+
+        // The first element of pre[] is always root
+        TreeNode root = new TreeNode(pre[0]);
+
+        Stack<TreeNode> s = new Stack<TreeNode>();
+
+        // Push root
+        s.push(root);
+
+        // Iterate through rest of the size-1 items of given preorder array
+        for (int i = 1; i < size; ++i) {
+            TreeNode temp = null;
+
+            /* Keep on popping while the next value is greater than
+             stack's top value. */
+            while (!s.isEmpty() && pre[i] > s.peek().data) {
+                temp = s.pop();
+            }
+
+            // Make this greater value as the right child and push it to the stack
+            if (temp != null) {
+                temp.right = new TreeNode(pre[i]);
+                s.push(temp.right);
+            }
+
+            // If the next value is less than the stack's top value, make this value
+            // as the left child of the stack's top node. Push the new node to stack
+            else {
+                temp = s.peek();
+                temp.left = new TreeNode(pre[i]);
+                s.push(temp.left);
+            }
+        }
+
+        return root;
+    }
+
+}
+
+/**
+ * CAN USE QUICKSELECT FOR THIS AS WELL. IF YOU SEE HEAPS, ALSO SEE IF QUICKSELECT IS AN OPTION
+ * @return
+ */
+class medianOfUnsortedArray {
+    private Queue<Integer> low = new PriorityQueue<>(Comparator.reverseOrder());
+    private Queue<Integer> high = new PriorityQueue<>();
+
+    public void add(int number) {
+        Queue<Integer> target = low.size() <= high.size() ? low : high;
+        target.add(number);
+        balance();
+    }
+
+    private void balance() {
+        while(!low.isEmpty() && !high.isEmpty() && low.peek() > high.peek()) {
+            Integer lowHead= low.poll();
+            Integer highHead = high.poll();
+            low.add(highHead);
+            high.add(lowHead);
+        }
+    }
+
+    public double median() {
+        if(low.isEmpty() && high.isEmpty()) {
+            throw new IllegalStateException("Heap is empty");
+        } else {
+            return low.size() == high.size() ? (low.peek() + high.peek()) / 2.0 : low.peek();
+        }
+    }
 }
