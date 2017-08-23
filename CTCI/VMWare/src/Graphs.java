@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.LinkedList;
 
 /**
  * Created by admin on 2/2/17.
@@ -48,11 +46,11 @@ public class Graphs {
         return root;
     }
 
-    public List<Node> BFS(Node node, Graph graph) {
+    public LinkedList BFS(Node node, Graph graph) {
 
-        Queue<Node> queue = new LinkedList<>();
+        Queue queue = (Queue) new LinkedList();
         HashSet visited = new HashSet();
-        LinkedList<Node> list = new LinkedList<>();
+        LinkedList list = new LinkedList();
         List<Node> currentNeighbors;
 
         Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
@@ -61,7 +59,7 @@ public class Graphs {
         visited.add(node);
 
         while (!queue.isEmpty()) {
-            Node removed = queue.remove();
+            Node removed = (Node) queue.remove();
             list.add(removed);
 
             currentNeighbors = adjacencyList.get(removed);
@@ -76,9 +74,9 @@ public class Graphs {
         return list;
     }
 
-    public List<Node> DFS(Node node, Graph graph) {
+    public LinkedList DFS(Node node, Graph graph) {
         Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
-        LinkedList<Node> list = new LinkedList<>();
+        LinkedList list = new LinkedList();
 
         HashSet<Node> visited = new HashSet<>();
         Stack<Node> stack = new Stack<>();
@@ -393,4 +391,5 @@ class medianOfUnsortedArray {
             return low.size() == high.size() ? (low.peek() + high.peek()) / 2.0 : low.peek();
         }
     }
+
 }
