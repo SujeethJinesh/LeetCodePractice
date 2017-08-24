@@ -57,36 +57,6 @@ public class MicrosoftPrep {
         return head;
     }
 
-//    public List<List<Integer>> printByLevel(TreeNode root) {
-//
-//        if (root == null) {
-//            return new LinkedList<List<Integer>>();
-//        }
-//
-//        List<List<Integer>> toReturn = new LinkedList<>();
-//        Queue<TreeNode> queue = new LinkedList<>();
-//
-//        TreeNode curr = root;
-//        queue.add(curr);
-//
-//        while(!queue.isEmpty()) {
-//            int numLevel = queue.size();
-//            List<Integer> sublist = new LinkedList<>();
-//            for (int i = 0; i < numLevel; i++) {
-//                curr = queue.poll();
-//                if (curr.left != null) {
-//                    queue.add(curr.left);
-//                }
-//                if (curr.right != null) {
-//                    queue.add(curr.right);
-//                }
-//                sublist.add(curr.data);
-//            }
-//            toReturn.add(sublist);
-//        }
-//        return toReturn;
-//    }
-
     public String reverseString(String s) {
         StringBuilder sb = new StringBuilder();
         for (int i = s.length() - 1; i >= 0; i--) {
@@ -231,24 +201,6 @@ public class MicrosoftPrep {
 
     /********************************************************************************************************************/
 
-    public static void main(String[] args) {
-        int[][] arr1 = {{2, 1, 0, 2, 1}, {1,0,1,2,1}, {1,0,0,2,1}};
-        int[][] arr2 = {{2,1,0,2,1}, {0,0,1,2,1}, {1,0,0,2,1}};
-
-        System.out.println(rottenOranges(arr1));
-        System.out.println(rottenOranges(arr2));
-
-//        System.out.println(carry(123, 456));
-//        System.out.println(carry(555, 555));
-//        System.out.println(carry(123, 594));
-//        System.out.println(carry(99, 1));
-
-    //        List<Integer> list = duplicateInt(arr);
-    //        for (int item : list) {
-    //            System.out.println(item);
-    //        }
-    }
-
     public static class Index {
         int i;
         int j;
@@ -362,4 +314,203 @@ public class MicrosoftPrep {
         }
         return toReturn;
     }
+
+    static class Person {
+        String name;
+        int amount;
+        String location;
+        int time;
+
+        Person(String name, int amount, String location, int time) {
+            this.name = name;
+            this.amount = amount;
+            this.location = location;
+            this.time = time;
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+    }
+
+    static class PersonComparator implements Comparator<Person> {
+
+        @Override
+        public int compare(Person p1, Person p2) {
+            if (p1.time < p2.time) {
+                return -1;
+            } else if (p1.time > p2.time) {
+                return 1;
+            }
+            return 0;
+        }
+    }
+
+    public static List<Person> getSuspiciousActivity(String[] transactions) {
+        Person[] persons = new Person[transactions.length];
+        int index = 0;
+        for (String string : transactions) {
+            String[] personArr = string.split("\\|");
+            String name = personArr[0];
+            int amount = Integer.parseInt(personArr[1]);
+            String location = personArr[2];
+            int time = Integer.parseInt(personArr[3]);
+
+            persons[index++] = new Person(name, amount, location, time);
+        }
+
+        Comparator<Person> comparator = new PersonComparator();
+        PriorityQueue<Person> pq = new PriorityQueue<>(comparator);
+        HashSet<String> alreadyCommittedFraud = new HashSet<>();
+        HashMap<String, Person> lastSeen = new HashMap<>();
+
+        for (Person person : persons) {
+            if (!alreadyCommittedFraud.contains(person.name)) {
+                if (lastSeen.containsKey(person.name) &&
+                        person.time - lastSeen.get(person.name).time < 60 &&
+                        !lastSeen.get(person.name).location.equals(person.location)) {
+                    pq.add(lastSeen.get(person.name));
+                    alreadyCommittedFraud.add(person.name);
+                } else if (person.amount > 3000) {
+                    pq.add(person);
+                    alreadyCommittedFraud.add(person.name);
+                }
+            }
+            lastSeen.put(person.name, person);
+        }
+
+        List<Person> toReturn = new ArrayList<>(pq);
+        return toReturn;
+    }
+
+
+    /*********************************************************************************************/
+
+    static class Contractor {
+        String name;
+        int[] ids;
+        boolean start;
+        int line;
+        String violation;
+
+        Contractor(String name, int[] ids, boolean start, int line) {
+            this.name = name;
+            this.ids = ids;
+            this.line = line;
+            this.start = start;
+            this.violation = "";
+        }
+
+        @Override
+        public String toString() {
+            return this.name;
+        }
+
+        public void setViolation(String violation) {
+            this.violation = violation;
+        }
+    }
+
+    static class ContractorComparator implements Comparator<Contractor> {
+
+        @Override
+        public int compare(Contractor p1, Contractor p2) {
+            if (p1.line < p2.line) {
+                return -1;
+            } else if (p1.line > p2.line) {
+                return 1;
+            }
+            return 0;
+        }
+    }
+
+    static String[] findViolations(String[] datafeed) {
+        final String SHORTENED_JOB =  "SHORTENED_JOB";
+        final String SUSPICIOUS_BATCH = "SUSPICIOUS_BATCH";
+        Contractor[] contractors = new Contractor[datafeed.length];
+        int index = 0;
+        for (String string : datafeed) {
+            String[] personArr = string.split(";");
+            String name = personArr[0];
+            int line = index + 1;
+            if (personArr[1].equals("START")) {
+                contractors[index++] = new Contractor(name, new int[0], true, line);
+            } else {
+                String[] raw = personArr[1].split(",");
+                int[] ids = new int[raw.length];
+                int newIndex = 0;
+                for (String num : raw) {
+                    ids[newIndex++] = Integer.parseInt(num);
+                }
+                contractors[index++] = new Contractor(name, ids, false, line);
+            }
+        }
+
+        Comparator<Contractor> comparator = new ContractorComparator();
+        PriorityQueue<Contractor> pq = new PriorityQueue<>(comparator);
+        PriorityQueue<Integer> pq_ids_ordered = new PriorityQueue<>((x, y) -> y - x);
+        HashSet<String> alreadyCommittedFraud = new HashSet<>();
+
+        for (Contractor contractor : contractors) {
+            if (!alreadyCommittedFraud.contains(contractor.name)) {
+                if (contractor.ids.length > 1) {
+                    for (int id : contractor.ids) {
+                        if (pq_ids_ordered.peek() > id && !alreadyCommittedFraud.contains(contractor.name)) {
+                            contractor.setViolation(SUSPICIOUS_BATCH); // Shortened batch violation
+                            pq.add(contractor);
+                            alreadyCommittedFraud.add(contractor.name);
+                        }
+                    }
+                } else if (pq_ids_ordered.peek() != null &&
+                        !contractor.start &&
+                        pq_ids_ordered.peek() > contractor.ids[0]) {
+                    contractor.setViolation(SHORTENED_JOB);
+                    pq.add(contractor);
+                    alreadyCommittedFraud.add(contractor.name);
+                }
+            }
+            for (int id : contractor.ids) {
+                pq_ids_ordered.add(id);
+            }
+        }
+
+        Object[] contractors_violating = new ArrayList<>(pq).toArray();
+        String[] toReturn = new String[contractors_violating.length];
+        int final_indices = 0;
+
+        for (Object contractor : contractors_violating) {
+            Contractor contractor1 = (Contractor) contractor;
+            toReturn[final_indices++] = contractor1.line + ";" + contractor1.name + ";" + contractor1.violation;
+        }
+
+        return toReturn;
+    }
+
+    public static void main(String[] args) {
+        String[] input = new String[]{
+                "Alice;START",
+                "Bob;START",
+                "Bob;1",
+                "Carson;START",
+                "Alice;15",
+                "Carson;6",
+                "David;START",
+                "David;24",
+                "Evil;START",
+                "Evil;24",
+                "Evil;START",
+                "Evil;18",
+                "Fiona;START"
+        };
+
+        String[] persons = findViolations(input);
+
+        for (String item : persons) {
+            System.out.println(item);
+        }
+    }
+
+    /*********************************************************************************************/
+
 }

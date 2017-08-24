@@ -359,6 +359,43 @@ public class Graphs {
         return root;
     }
 
+    public static void main(String[] args) {
+        System.out.println(isPalindrome("abc"));
+        System.out.println(isPalindrome("ab234aasc"));
+        System.out.println(isPalindrome("abdsgesc"));
+        System.out.println(isPalindrome("abcxssss"));
+        System.out.println(isPalindrome("tacocat"));
+        System.out.println(isPalindrome("abcdcba"));
+    }
+
+    public static String reverseString(String string) {
+        char[] chars = string.toCharArray();
+        int i = 0;
+        int j = string.length() - 1;
+        char temp;
+        while (i < j) {
+            temp = chars[i];
+            chars[i++] = chars[j];
+            chars[j--] = temp;
+        }
+        return new String(chars);
+    }
+
+    public static boolean isPalindrome(String string) {
+        int i = 0;
+        int j = string.length() - 1;
+
+        while (i < j) {
+            if (string.charAt(i++) != string.charAt(j--)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    
+
 }
 
 /**
