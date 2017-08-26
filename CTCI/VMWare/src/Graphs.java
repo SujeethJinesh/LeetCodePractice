@@ -394,7 +394,38 @@ public class Graphs {
         return true;
     }
 
-    
+    public Node deleteNodesGreaterThanK(Node head, int k) {
+        if (head == null) {
+            return null;
+        }
+
+        for (Node curr = head, prev = curr; curr != null; prev = curr, curr = curr.next) {
+            if (curr.data > k) {
+                if (curr == head) {
+                    head = curr.next;
+                } else {
+                    prev.next = curr.next;
+                }
+            }
+        }
+        return head;
+    }
+
+//    Node Reverse(Node head) {
+//        if (head == null) {
+//            return null;
+//        }
+//
+//        Node current = head;
+//        Node prev = current.prev;
+//        Node next = current.next;
+//        Node temp;
+//
+//        while (current != null) {
+//            head = prev;
+//
+//        }
+//    }
 
 }
 

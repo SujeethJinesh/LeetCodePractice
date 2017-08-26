@@ -1,6 +1,8 @@
 import apple.laf.JRSUIUtils;
 import sun.awt.image.ImageWatched;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.LinkedList;
 
@@ -487,30 +489,200 @@ public class MicrosoftPrep {
         return toReturn;
     }
 
-    public static void main(String[] args) {
-        String[] input = new String[]{
-                "Alice;START",
-                "Bob;START",
-                "Bob;1",
-                "Carson;START",
-                "Alice;15",
-                "Carson;6",
-                "David;START",
-                "David;24",
-                "Evil;START",
-                "Evil;24",
-                "Evil;START",
-                "Evil;18",
-                "Fiona;START"
-        };
+    /*********************************************************************************************/
 
-        String[] persons = findViolations(input);
+    static int findMutationDistance(String start, String end, String[] bank) {
+        HashSet<String> bankSet = new HashSet<>();
 
-        for (String item : persons) {
-            System.out.println(item);
+        //Add sequences from bank to set for fast lookup
+        for (String sequence : bank) {
+            bankSet.add(sequence);
         }
+
+        int minimum = Integer.MAX_VALUE;
+        int startHammingDistance;
+        int endHammingDistance;
+        int sum;
+
+        for (String sequence : bank) {
+            startHammingDistance = findHammingDistance(start, sequence, bankSet);
+            endHammingDistance = findHammingDistance(end, sequence, bankSet);
+
+            sum = startHammingDistance + endHammingDistance;
+
+            if (sum < minimum) {
+                minimum = sum;
+            }
+
+        }
+
+        if (minimum == Integer.MAX_VALUE) {
+            return -1;
+        }
+
+        return minimum;
     }
 
-    /*********************************************************************************************/
+    static int findHammingDistance(String current, String bankSequence, Set<String> bankSet) {
+        int distance = 0;
+
+        for (int i = 0; i < current.length(); i++) {
+            if (current.charAt(i) != bankSequence.charAt(i) &&
+                    bankSet.contains(current.substring(0, i) + bankSequence.charAt(i) + current.substring(i + 1, current.length()))) {
+                distance++;
+            }
+        }
+
+        return distance;
+    }
+
+    public static void main(String[] args) {
+        int dist = findMutationDistance(
+                "AAAAAAAA",
+                "AAAAAATT",
+                new String[]{
+                        "AAAAAAAA",
+                        "AAAAAAAT",
+                        "AAAAAATT",
+                        "AAAAATTT"
+                }
+        );
+
+        System.out.println(dist);
+    }
+
+//    static class Solution {
+//
+//        static class Entry {
+//            int year;
+//            int month;
+//            ArrayList<TypeNumber> typeNumbers;
+//            String dateMonth;
+//
+//            Entry(int year, int month, ArrayList<TypeNumber> typeNumbers, String dateMonth) {
+//                this.year = year;
+//                this.month = month;
+//                this.typeNumbers = typeNumbers;
+//                this.dateMonth = dateMonth;
+//            }
+//
+//            void update(String type, int number) {
+//
+//                String currentType;
+//                boolean newType = false;
+//
+//                for (int i = 0; i < this.typeNumbers.size(); i++) {
+//                    currentType = this.typeNumbers.get(i);
+//                    if (currentType.equals(type)) {
+//                        this.typeNumbers.update(i, this.type.get(i) + number);
+//                        newType = !newType;
+//                        break;
+//                    }
+//                }
+//
+//                if (!newType) {
+//                    types.add(type);
+//                    numbers.add(number);
+//                }
+//            }
+//
+//            @Override
+//            public String toString() {
+//
+//                StringBuilder sb = new StringBuilder();
+//
+//                sb.append(this.dateMonth + ", ");
+//
+//                Collections.sort(this.types);
+//
+//                for (int i = 0; i < this.types.size(); i++) {
+//                    sb.append(this.types.get(i).toString());
+//                }
+//
+//                return sb.toString().replaceAll(", $", "");
+//            }
+//        }
+//
+//        static class TypeNumber {
+//            String type;
+//            int number;
+//
+//            TypeNumber(String type, int number) {
+//                this.type = type;
+//                this.number = number;
+//            }
+//
+//            @Override
+//            public String toString() {
+//                return this.type + " " + this.number + ", ";
+//            }
+//        }
+//
+//        static class EntryComparator implements Comparator<Entry> {
+//
+//            @Override
+//            public int compare(Entry e1, Entry e2) {
+//                if (e1.year < e2.year || e1.year == e2.year && e1.month < e2.month) {
+//                    return 1;
+//                } else if (e1.year > e2.year || e1.year == e2.year && e1.month > e2.month) {
+//                    return -1;
+//                }
+//                return 0;
+//            }
+//        }
+//
+//        public static void main(String args[] ) throws Exception {
+//
+//            Scanner scan = new Scanner(System.in);
+//            List<Entry> entries = new ArrayList<>();
+//
+//            String[] startString = scan.next().split("[-,]+");
+//            String[] endString = scan.next().split("[-,]+");
+//
+//            Entry start = new Entry(Integer.parseInt(startString[0]), Integer.parseInt(startString[1]), null, null, null);
+//            Entry end = new Entry(Integer.parseInt(endString[0]), Integer.parseInt(endString[1]), null, null, null);
+//
+//            while (scan.hasNext()) {
+//                String[] date = scan.next().split("[-,]+");
+//                String type = scan.next();
+//                int number = scan.nextInt();
+//
+//                entries.add(new Entry(Integer.parseInt(date[0]), Integer.parseInt(date[1]), new ArrayList<String>(){{add(type);}}, new ArrayList<Integer>(){{add(number);}}, date[0] + "-" + date[1]));
+//            }
+//
+//            printInformation(start, end, entries);
+//        }
+//
+//        private static void printInformation(Entry start, Entry end, List<Entry> entries) {
+//            Comparator<Entry> comparator = new EntryComparator();
+//            PriorityQueue<Entry> priorityQueue = new PriorityQueue<>(comparator);
+//            HashMap<String, Entry> hashMap = new HashMap<>();
+//
+//            for (Entry entry : entries) {
+//                if (inDateRange(start, end, entry)) {
+//                    if (hashMap.containsKey(entry.dateMonth)) {
+//                        hashMap.get(entry.dateMonth).update(entry.types.get(0), entry.numbers.get(0));
+//                    } else {
+//                        hashMap.put(entry.dateMonth, entry);
+//                    }
+//                }
+//            }
+//
+//            for (String key : hashMap.keySet()) {
+//                priorityQueue.add(hashMap.get(key));
+//            }
+//
+//            while (priorityQueue.peek() != null) {
+//                System.out.println(priorityQueue.poll());
+//            }
+//        }
+//
+//        private static boolean inDateRange(Entry start, Entry end, Entry searching) {
+//            return searching.year > start.year && searching.year < end.year ||
+//                    searching.year == start.year && searching.month >= start.month ||
+//                    searching.year == end.year && searching.month <= end.month;
+//
+//        }
+//    }
 
 }
