@@ -560,138 +560,153 @@ public class MicrosoftPrep {
         System.out.println(dist);
     }
 
-//    static class Solution {
-//
-//        static class Entry {
-//            int year;
-//            int month;
-//            ArrayList<TypeNumber> typeNumbers;
-//            String dateMonth;
-//
-//            Entry(int year, int month, ArrayList<TypeNumber> typeNumbers, String dateMonth) {
-//                this.year = year;
-//                this.month = month;
-//                this.typeNumbers = typeNumbers;
-//                this.dateMonth = dateMonth;
-//            }
-//
-//            void update(String type, int number) {
-//
-//                String currentType;
-//                boolean newType = false;
-//
-//                for (int i = 0; i < this.typeNumbers.size(); i++) {
-//                    currentType = this.typeNumbers.get(i);
-//                    if (currentType.equals(type)) {
-//                        this.typeNumbers.update(i, this.type.get(i) + number);
-//                        newType = !newType;
-//                        break;
-//                    }
-//                }
-//
-//                if (!newType) {
-//                    types.add(type);
-//                    numbers.add(number);
-//                }
-//            }
-//
-//            @Override
-//            public String toString() {
-//
-//                StringBuilder sb = new StringBuilder();
-//
-//                sb.append(this.dateMonth + ", ");
-//
-//                Collections.sort(this.types);
-//
-//                for (int i = 0; i < this.types.size(); i++) {
-//                    sb.append(this.types.get(i).toString());
-//                }
-//
-//                return sb.toString().replaceAll(", $", "");
-//            }
-//        }
-//
-//        static class TypeNumber {
-//            String type;
-//            int number;
-//
-//            TypeNumber(String type, int number) {
-//                this.type = type;
-//                this.number = number;
-//            }
-//
-//            @Override
-//            public String toString() {
-//                return this.type + " " + this.number + ", ";
-//            }
-//        }
-//
-//        static class EntryComparator implements Comparator<Entry> {
-//
-//            @Override
-//            public int compare(Entry e1, Entry e2) {
-//                if (e1.year < e2.year || e1.year == e2.year && e1.month < e2.month) {
-//                    return 1;
-//                } else if (e1.year > e2.year || e1.year == e2.year && e1.month > e2.month) {
-//                    return -1;
-//                }
-//                return 0;
-//            }
-//        }
-//
-//        public static void main(String args[] ) throws Exception {
-//
-//            Scanner scan = new Scanner(System.in);
-//            List<Entry> entries = new ArrayList<>();
-//
-//            String[] startString = scan.next().split("[-,]+");
-//            String[] endString = scan.next().split("[-,]+");
-//
-//            Entry start = new Entry(Integer.parseInt(startString[0]), Integer.parseInt(startString[1]), null, null, null);
-//            Entry end = new Entry(Integer.parseInt(endString[0]), Integer.parseInt(endString[1]), null, null, null);
-//
-//            while (scan.hasNext()) {
-//                String[] date = scan.next().split("[-,]+");
-//                String type = scan.next();
-//                int number = scan.nextInt();
-//
-//                entries.add(new Entry(Integer.parseInt(date[0]), Integer.parseInt(date[1]), new ArrayList<String>(){{add(type);}}, new ArrayList<Integer>(){{add(number);}}, date[0] + "-" + date[1]));
-//            }
-//
-//            printInformation(start, end, entries);
-//        }
-//
-//        private static void printInformation(Entry start, Entry end, List<Entry> entries) {
-//            Comparator<Entry> comparator = new EntryComparator();
-//            PriorityQueue<Entry> priorityQueue = new PriorityQueue<>(comparator);
-//            HashMap<String, Entry> hashMap = new HashMap<>();
-//
-//            for (Entry entry : entries) {
-//                if (inDateRange(start, end, entry)) {
-//                    if (hashMap.containsKey(entry.dateMonth)) {
-//                        hashMap.get(entry.dateMonth).update(entry.types.get(0), entry.numbers.get(0));
-//                    } else {
-//                        hashMap.put(entry.dateMonth, entry);
-//                    }
-//                }
-//            }
-//
-//            for (String key : hashMap.keySet()) {
-//                priorityQueue.add(hashMap.get(key));
-//            }
-//
-//            while (priorityQueue.peek() != null) {
-//                System.out.println(priorityQueue.poll());
-//            }
-//        }
-//
-//        private static boolean inDateRange(Entry start, Entry end, Entry searching) {
-//            return searching.year > start.year && searching.year < end.year ||
-//                    searching.year == start.year && searching.month >= start.month ||
-//                    searching.year == end.year && searching.month <= end.month;
-//
-//        }
-//    }
+    static class Solution {
+
+        static class Entry {
+            int year;
+            int month;
+            ArrayList<String> types;
+            ArrayList<Integer> numbers;
+            String dateMonth;
+
+            Entry(int year, int month, ArrayList<String> type, ArrayList<Integer> numbers, String dateMonth) {
+                this.year = year;
+                this.month = month;
+                this.types = type;
+                this.numbers = numbers;
+                this.dateMonth = dateMonth;
+            }
+
+            void update(String type, int number) {
+
+                String currentType;
+                boolean newType = false;
+
+                for (int i = 0; i < this.types.size(); i++) {
+                    currentType = this.types.get(i);
+                    if (currentType.equals(type)) {
+                        this.numbers.set(i, this.numbers.get(i) + number);
+                        newType = !newType;
+                        break;
+                    }
+                }
+
+                if (!newType) {
+                    types.add(type);
+                    numbers.add(number);
+                }
+            }
+
+            @Override
+            public String toString() {
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.append(this.dateMonth + ", ");
+
+                ArrayList<TypeNumber> typeNumbers = new ArrayList<>();
+
+                for (int i = 0; i < this.types.size(); i++) {
+                    typeNumbers.add(new TypeNumber(this.types.get(i), this.numbers.get(i)));
+                }
+
+                Collections.sort(typeNumbers, new TypeNumberComparator());
+
+                for (int i = 0; i < this.types.size(); i++) {
+                    sb.append(typeNumbers.get(i));
+                }
+
+                return sb.toString().replaceAll(", $", "");
+            }
+        }
+
+        static class TypeNumberComparator implements Comparator<TypeNumber> {
+            public int compare(TypeNumber c1, TypeNumber c2)
+            {
+                return c1.type.compareTo(c2.type);
+            }
+        }
+
+        static class TypeNumber {
+            String type;
+            int number;
+
+            TypeNumber(String type, int number) {
+                this.type = type;
+                this.number = number;
+            }
+
+            @Override
+            public String toString() {
+                return this.type + " " + this.number + ", ";
+            }
+        }
+
+        static class EntryComparator implements Comparator<Entry> {
+
+            @Override
+            public int compare(Entry e1, Entry e2) {
+                if (e1.year < e2.year || e1.year == e2.year && e1.month < e2.month) {
+                    return 1;
+                } else if (e1.year > e2.year || e1.year == e2.year && e1.month > e2.month) {
+                    return -1;
+                }
+                return 0;
+            }
+        }
+
+        public static void main(String args[] ) throws Exception {
+
+            Scanner scan = new Scanner(System.in);
+            List<Entry> entries = new ArrayList<>();
+
+            String[] startString = scan.next().split("[-,]+");
+            String[] endString = scan.next().split("[-,]+");
+
+            Entry start = new Entry(Integer.parseInt(startString[0]), Integer.parseInt(startString[1]), null, null, null);
+            Entry end = new Entry(Integer.parseInt(endString[0]), Integer.parseInt(endString[1]), null, null, null);
+
+            while (scan.hasNext()) {
+                String[] date = scan.next().split("[-,]+");
+                String type = scan.next();
+                int number = scan.nextInt();
+
+                entries.add(new Entry(Integer.parseInt(date[0]), Integer.parseInt(date[1]), new ArrayList<String>(){{add(type);}}, new ArrayList<Integer>(){{add(number);}}, date[0] + "-" + date[1]));
+            }
+
+            printInformation(start, end, entries);
+        }
+
+        private static void printInformation(Entry start, Entry end, List<Entry> entries) {
+            Comparator<Entry> comparator = new EntryComparator();
+            PriorityQueue<Entry> priorityQueue = new PriorityQueue<>(comparator);
+            HashMap<String, Entry> hashMap = new HashMap<>();
+
+            for (Entry entry : entries) {
+                if (inDateRange(start, end, entry)) {
+                    if (hashMap.containsKey(entry.dateMonth)) {
+                        hashMap.get(entry.dateMonth).update(entry.types.get(0), entry.numbers.get(0));
+                    } else {
+                        hashMap.put(entry.dateMonth, entry);
+                    }
+                }
+            }
+
+            for (String key : hashMap.keySet()) {
+                priorityQueue.add(hashMap.get(key));
+            }
+
+            while (priorityQueue.peek() != null) {
+                System.out.println(priorityQueue.poll());
+            }
+        }
+
+        private static boolean inDateRange(Entry start, Entry end, Entry searching) {
+            return searching.year > start.year && searching.year < end.year ||
+                    searching.year == start.year && searching.month >= start.month ||
+                    searching.year == end.year && searching.month <= end.month;
+
+        }
+    }
 
 }
