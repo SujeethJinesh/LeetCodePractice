@@ -492,48 +492,57 @@ public class MicrosoftPrep {
     /*********************************************************************************************/
 
     static int findMutationDistance(String start, String end, String[] bank) {
+
+        if (start.equals(end)) {
+            return 0;
+        }
+
         HashSet<String> bankSet = new HashSet<>();
 
         //Add sequences from bank to set for fast lookup
-        for (String sequence : bank) {
-            bankSet.add(sequence);
-        }
+        bankSet.addAll(Arrays.asList(bank));
 
-        int minimum = Integer.MAX_VALUE;
-        int startHammingDistance;
-        int endHammingDistance;
-        int sum;
-
-        for (String sequence : bank) {
-            startHammingDistance = findHammingDistance(start, sequence, bankSet);
-            endHammingDistance = findHammingDistance(end, sequence, bankSet);
-
-            sum = startHammingDistance + endHammingDistance;
-
-            if (sum < minimum) {
-                minimum = sum;
-            }
-
-        }
-
-        if (minimum == Integer.MAX_VALUE) {
+        if (!bankSet.contains(end)) {
             return -1;
         }
 
-        return minimum;
-    }
+        char[] acgt = new char[]{'A', 'C', 'G', 'T'};
 
-    static int findHammingDistance(String current, String bankSequence, Set<String> bankSet) {
-        int distance = 0;
+        Queue<String> queue = new LinkedList<>();
+        HashSet<String> visited = new HashSet<>();
+        String current;
+        String testing;
+        char[] currentCharArr;
+        char oldChar;
+        int dist;
+        int level = 0;
 
-        for (int i = 0; i < current.length(); i++) {
-            if (current.charAt(i) != bankSequence.charAt(i) &&
-                    bankSet.contains(current.substring(0, i) + bankSequence.charAt(i) + current.substring(i + 1, current.length()))) {
-                distance++;
+        queue.add(start);
+
+        while(!queue.isEmpty()) {
+            dist = queue.size();
+            while (dist-- > 0) {
+                current = queue.poll();
+                currentCharArr = current.toCharArray();
+                for(int i = 0; i < currentCharArr.length; i++) {
+                    oldChar = currentCharArr[i];
+                    for(char c: acgt) {
+                        currentCharArr[i] = c;
+                        testing = new String(currentCharArr);
+                        if(!visited.contains(testing) && bankSet.contains(testing)) {
+                            if (testing.equals(end)) {
+                                return level + 1;
+                            }
+                            queue.add(testing);
+                            visited.add(testing);
+                        }
+                    }
+                    currentCharArr[i] = oldChar;
+                }
             }
+            level++;
         }
-
-        return distance;
+        return -1;
     }
 
     public static void main(String[] args) {
