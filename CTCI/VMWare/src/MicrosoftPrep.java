@@ -545,19 +545,123 @@ public class MicrosoftPrep {
         return -1;
     }
 
-    public static void main(String[] args) {
-        int dist = findMutationDistance(
-                "AAAAAAAA",
-                "AAAAAATT",
-                new String[]{
-                        "AAAAAAAA",
-                        "AAAAAAAT",
-                        "AAAAAATT",
-                        "AAAAATTT"
-                }
-        );
+    public static char[] rotateCharArray(char[] arr, int index) {
+        char[] toReturn = new char[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            toReturn[i] = arr[(++index)%arr.length];
+        }
+        return toReturn;
+    }
+//
+//    public static char[] staticallyRotateCharArray(char[] arr, int index) {
+//        for (int i = 0, j = index; i < index; i++, j++) {
+//            char temp = arr[i];
+//            arr[i] = arr[j];
+//            arr[j] = temp;
+//        }
+//        return arr;
+//    }
 
-        System.out.println(dist);
+    public static Node reverseLinkedList(Node head) {
+        if (head == null) {
+            return null;
+        }
+
+        Node prev = null;
+        Node curr = head;
+        Node next;
+
+        while (curr != null) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+        return head;
+    }
+
+    public static Node reverseDoublyLinkedList(Node head) {
+        if (head == null) {
+            return null;
+        }
+
+        Node prev = null;
+        Node curr = head;
+        Node next;
+
+        while (curr != null) {
+            next = curr.next;
+            curr.prev = next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+        return head;
+    }
+
+    public static Node mergeLists(Node headA, Node headB) {
+
+        if (headA == null && headB == null) {
+            return null;
+        }
+
+        if (headA == null) {
+            return headB;
+        }
+
+        if (headB == null) {
+            return headA;
+        }
+
+        Node ANode = headA;
+        Node ANodeNext = ANode.next;
+
+        Node BNode = headB;
+        Node BNodeNext = BNode.next;
+
+        Node toReturn = (ANode.data > BNode.data) ? BNode : ANode;
+
+        while (ANode != null && BNode != null) {
+            if (ANode.data >= BNode.data) {
+
+                while (BNodeNext != null && ANode.data >= BNodeNext.data) {
+                    BNode = BNodeNext;
+                    BNodeNext = BNode.next;
+                }
+
+                BNodeNext = BNode.next;
+                BNode.next = ANode;
+                BNode = BNodeNext;
+            } else {
+
+                while (ANodeNext != null && BNode.data >= ANodeNext.data) {
+                    ANode = ANodeNext;
+                    ANodeNext = ANode.next;
+                }
+
+                ANodeNext = ANode.next;
+                ANode.next = BNode;
+                ANode = ANodeNext;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static void main(String[] args) {
+
+        char[] arr = new char[]{
+                'a', 'b', 'c', 'd', 'e', 'f', 'g'
+        };
+
+
+//        arr = staticallyRotateCharArray(arr, 2);
+
+        for (char c : arr) {
+            System.out.println(c);
+        }
     }
 
     static class Solution {
