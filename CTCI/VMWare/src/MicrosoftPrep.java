@@ -650,18 +650,248 @@ public class MicrosoftPrep {
         return toReturn;
     }
 
-    public static void main(String[] args) {
-
-        char[] arr = new char[]{
-                'a', 'b', 'c', 'd', 'e', 'f', 'g'
-        };
-
-
-//        arr = staticallyRotateCharArray(arr, 2);
-
-        for (char c : arr) {
-            System.out.println(c);
+    public static int binarySearchIterative(int[] arr, int k) {
+        if (arr == null) {
+            return -1;
         }
+
+        int left = 0;
+        int right = arr.length - 1;
+        int middle;
+
+        while (left <= right) {
+            middle = left + (right - left)/2;
+
+            if (arr[middle] > k) {
+                right = middle - 1;
+            } else if (arr[middle] < k) {
+                left = middle + 1;
+            } else {
+                return middle;
+            }
+        }
+
+        return -1;
+    }
+
+    public static int binarySearchRecursive(int[] arr, int k, int l, int r) {
+        if (r >= 1) {
+            int m = l + (r-l)/2;
+
+            if (arr[m] > k) {
+                return binarySearchRecursive(arr, k, l, m - 1);
+            } else if (arr[m] < k) {
+                return binarySearchRecursive(arr, k, m + 1, r);
+            } else {
+                return m;
+            }
+        }
+        return -1;
+    }
+
+    public static int findPeakElement(int[] arr) {
+        return findPeakElementHelper(arr, 0, arr.length - 1);
+    }
+
+    private static int findPeakElementHelper(int[] arr, int low, int high) {
+
+        int mid = low + (high - low)/2;
+
+        if ((mid == 0 || arr[mid-1] <= arr[mid]) &&
+                (mid == arr.length - 1 || arr[mid+1] <= arr[mid])) {
+            return mid;
+        } else if (mid > 0 && arr[mid-1] > arr[mid]) {
+            return findPeakElementHelper(arr, low, (mid -1));
+        } else {
+            return findPeakElementHelper(arr, (mid + 1), high);
+        }
+
+    }
+
+    public static int findLocalMinElement(int[] arr) {
+        return findLocalMinElementHelper(arr, 0, arr.length - 1);
+    }
+
+    private static int findLocalMinElementHelper(int[] arr, int low, int high) {
+
+        int mid = low + (high - low)/2;
+
+        if ((mid == 0 || arr[mid - 1] >= arr[mid]) && (mid == arr.length - 1 || arr[mid + 1] > arr[mid])) {
+            return mid;
+        } else if (mid > 0 && arr[mid - 1] < arr[mid]) {
+            return findLocalMinElementHelper(arr, low, mid - 1);
+        } else {
+            return findLocalMinElementHelper(arr, mid + 1, high);
+        }
+
+    }
+
+    public static int findMinElementSortedRotatedArray(int[] arr) {
+
+        int low = 0;
+        int high = arr.length - 1;
+        int middle;
+
+        while (low <= high) {
+            middle = low + (high - low)/2;
+
+            if ((middle == 0 || arr[middle - 1] >= arr[middle]) && (middle == arr.length - 1 || arr[middle + 1] >= arr[middle]) ) {
+                return arr[middle];
+            } else if (middle > 0 && arr[middle - 1] < arr[middle]) {
+                high = middle - 1;
+            } else {
+                low = middle + 1;
+            }
+
+        }
+        return arr[0];
+    }
+
+    public static int findElementSortedRotatedArray(int[] arr, int k) {
+        int low = 0;
+        int high = arr.length - 1;
+        int mid;
+
+        while (low <= high) {
+            mid = low + (high - low)/2;
+
+            if (arr[mid] == k) {
+                return mid;
+            } else if (arr[low] <= arr[mid]) { // means is sorted
+                if (arr[low] < k && arr[mid] > k) {
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else {
+                if (arr[high] > k && arr[mid] < k) {
+                    low = mid + 1;
+                } else {
+                    high = mid -1;
+                }
+            }
+
+        }
+        return -1;
+    }
+
+    public static int largestSumUnsortedArray(int[] arr) {
+
+        if (!(arr.length >= 2)) {
+            return -1;
+        }
+
+        int first = arr[1];
+        int second = arr[0];
+        int index_first = 1;
+
+        for (int i = 2; i < arr.length; i++) {
+            if (arr[i] > first) {
+                second = first;
+                first = arr[i];
+                index_first = i;
+            } else if (arr[i] > second && i != index_first) {
+                second = arr[i];
+            }
+        }
+
+        return first + second;
+    }
+
+    public static int closestPairs(int[] arr1, int[] arr2, int k) {
+        int left = 0; // starts on arr1
+        int right = arr2.length - 1; //starts on arr2
+        int closestSum = Integer.MAX_VALUE;
+        int sum;
+
+        while (left < arr1.length && right >= 0) {
+            sum = arr1[left] + arr2[right];
+
+            if (Math.abs(sum - k) < Math.abs(closestSum - k)) {
+                closestSum = sum;
+            }
+
+            if (sum > k) {
+                right--;
+            } else if (sum < k) {
+                left++;
+            } else {
+                return sum;
+            }
+        }
+        return closestSum;
+    }
+
+    public static int substringSearching(String longer, String shorter) {
+        if (shorter.length() > longer.length()) {
+            return -1;
+        }
+
+        int j;
+
+        for (int i = 0; i < longer.length() - shorter.length() + 1; i++) {
+            j = 0;
+            while (longer.charAt(i+j) == shorter.charAt(j++)) {
+                if (j == shorter.length()) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static String findingNearestSmallerNumbersOnLeftSide(int[] arr) {
+        Stack<Integer> stack = new Stack<>();
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < arr.length; i++) {
+            while (!stack.isEmpty() && stack.peek() >= arr[i]) {
+                stack.pop();
+            }
+
+            if (stack.isEmpty()) {
+                sb.append("_");
+            } else {
+                sb.append(", " + stack.peek());
+            }
+            stack.push(arr[i]);
+        }
+        return sb.toString();
+    }
+
+    public static String subarrayWithGivenSum(int[] arr, int k) {
+
+        int sum = arr[0];
+        int highIndex = 1;
+
+        while (sum < k && highIndex < arr.length) {
+            sum += arr[highIndex++];
+        }
+
+        int lowIndex = 0;
+
+        if (sum == k) {
+            return String.valueOf(lowIndex) + ", " + String.valueOf(highIndex - 1);
+        }
+
+        while (sum > k && lowIndex < highIndex) {
+            sum -= arr[lowIndex++];
+        }
+
+        if (sum == k) {
+            return String.valueOf(lowIndex) + ", " + String.valueOf(highIndex - 1);
+        }
+
+        return String.valueOf(-1);
+    }
+
+    int minDepth(Node root)
+    {
+        return root == null ? 0 : (Math.min(minDepth(root.left) + 1, minDepth(root.right) + 1));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(subarrayWithGivenSum(new int[]{1, 4}, 0));
     }
 
     static class Solution {
