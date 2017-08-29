@@ -16,23 +16,11 @@
       <file leaf-file-name="MicrosoftPrep.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/MicrosoftPrep.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="331">
-              <caret line="889" column="96" lean-forward="true" selection-start-line="889" selection-start-column="96" selection-end-line="889" selection-end-column="96" />
+            <state relative-caret-position="234">
+              <caret line="1054" column="52" lean-forward="true" selection-start-line="1054" selection-start-column="52" selection-end-line="1054" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#19714#19715#0" expanded="true" />
-                <element signature="e#19782#19783#0" expanded="true" />
-                <element signature="e#20318#20319#0" expanded="true" />
-                <element signature="e#20390#20391#0" expanded="true" />
-                <element signature="e#25112#25113#0" expanded="true" />
-                <element signature="e#25215#25216#0" expanded="true" />
-                <element signature="e#25261#25262#0" expanded="true" />
-                <element signature="e#25337#25338#0" expanded="true" />
-                <element signature="e#27357#27358#0" expanded="true" />
-                <element signature="e#27422#27423#0" expanded="true" />
-                <element signature="e#27715#27716#0" expanded="true" />
-                <element signature="e#27790#27791#0" expanded="true" />
-                <marker date="1503973392000" expanded="true" signature="25355:30568" ph="..." />
+                <marker date="1504036497000" expanded="true" signature="28804:36279" ph="..." />
               </folding>
             </state>
           </provider>
@@ -41,7 +29,7 @@
       <file leaf-file-name="Graphs.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Graphs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
+            <state relative-caret-position="248">
               <caret line="432" column="52" lean-forward="false" selection-start-line="432" selection-start-column="52" selection-end-line="432" selection-end-column="52" />
               <folding />
             </state>
@@ -55,6 +43,8 @@
       <find>queue</find>
       <find>level</find>
       <find>substringsearch</find>
+      <find>index</find>
+      <find>neighbors</find>
     </findStrings>
   </component>
   <component name="GradleLocalSettings">
@@ -89,7 +79,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -112,6 +101,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
@@ -288,18 +278,17 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18235295" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.18235295" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12013889" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -310,6 +299,7 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32941177" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -328,19 +318,26 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19714#19715#0" expanded="true" />
-            <element signature="e#19782#19783#0" expanded="true" />
-            <element signature="e#20318#20319#0" expanded="true" />
-            <element signature="e#20390#20391#0" expanded="true" />
-            <element signature="e#25112#25113#0" expanded="true" />
-            <element signature="e#25215#25216#0" expanded="true" />
-            <element signature="e#25261#25262#0" expanded="true" />
-            <element signature="e#25337#25338#0" expanded="true" />
-            <element signature="e#27357#27358#0" expanded="true" />
-            <element signature="e#27422#27423#0" expanded="true" />
-            <element signature="e#27715#27716#0" expanded="true" />
-            <element signature="e#27790#27791#0" expanded="true" />
-            <marker date="1503973392000" expanded="true" signature="25355:30568" ph="..." />
+            <marker date="1504036497000" expanded="true" signature="28804:36279" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Graphs.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6450">
+          <caret line="432" column="52" lean-forward="false" selection-start-line="432" selection-start-column="52" selection-end-line="432" selection-end-column="52" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/MicrosoftPrep.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <marker date="1504036497000" expanded="true" signature="28804:36279" ph="..." />
           </folding>
         </state>
       </provider>
@@ -351,19 +348,7 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19714#19715#0" expanded="true" />
-            <element signature="e#19782#19783#0" expanded="true" />
-            <element signature="e#20318#20319#0" expanded="true" />
-            <element signature="e#20390#20391#0" expanded="true" />
-            <element signature="e#25112#25113#0" expanded="true" />
-            <element signature="e#25215#25216#0" expanded="true" />
-            <element signature="e#25261#25262#0" expanded="true" />
-            <element signature="e#25337#25338#0" expanded="true" />
-            <element signature="e#27357#27358#0" expanded="true" />
-            <element signature="e#27422#27423#0" expanded="true" />
-            <element signature="e#27715#27716#0" expanded="true" />
-            <element signature="e#27790#27791#0" expanded="true" />
-            <marker date="1503973392000" expanded="true" signature="25355:30568" ph="..." />
+            <marker date="1504036497000" expanded="true" signature="28804:36279" ph="..." />
           </folding>
         </state>
       </provider>
@@ -380,13 +365,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="20" column="5" lean-forward="true" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Graphs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
+        <state relative-caret-position="248">
           <caret line="432" column="52" lean-forward="false" selection-start-line="432" selection-start-column="52" selection-end-line="432" selection-end-column="52" />
           <folding />
         </state>
@@ -394,23 +378,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/MicrosoftPrep.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="331">
-          <caret line="889" column="96" lean-forward="true" selection-start-line="889" selection-start-column="96" selection-end-line="889" selection-end-column="96" />
+        <state relative-caret-position="234">
+          <caret line="1054" column="52" lean-forward="true" selection-start-line="1054" selection-start-column="52" selection-end-line="1054" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#19714#19715#0" expanded="true" />
-            <element signature="e#19782#19783#0" expanded="true" />
-            <element signature="e#20318#20319#0" expanded="true" />
-            <element signature="e#20390#20391#0" expanded="true" />
-            <element signature="e#25112#25113#0" expanded="true" />
-            <element signature="e#25215#25216#0" expanded="true" />
-            <element signature="e#25261#25262#0" expanded="true" />
-            <element signature="e#25337#25338#0" expanded="true" />
-            <element signature="e#27357#27358#0" expanded="true" />
-            <element signature="e#27422#27423#0" expanded="true" />
-            <element signature="e#27715#27716#0" expanded="true" />
-            <element signature="e#27790#27791#0" expanded="true" />
-            <marker date="1503973392000" expanded="true" signature="25355:30568" ph="..." />
+            <marker date="1504036497000" expanded="true" signature="28804:36279" ph="..." />
           </folding>
         </state>
       </provider>

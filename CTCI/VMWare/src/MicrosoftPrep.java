@@ -203,16 +203,6 @@ public class MicrosoftPrep {
 
     /********************************************************************************************************************/
 
-    public static class Index {
-        int i;
-        int j;
-
-        public Index(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-    }
-
     // Returns a HashSet of the indices changed to 2
     private static HashSet<Index> BFS(int[][] arr, Index index) {
 
@@ -890,11 +880,210 @@ public class MicrosoftPrep {
         return root == null ? 0 : (Math.min(minDepth(root.left) + 1, minDepth(root.right) + 1));
     }
 
+    public static int possibleNumOfDecodings(int[] digits) {
+
+        int[] counts = new int[digits.length + 1];
+        counts[0] = 1;
+        counts[1] = 1;
+
+        for (int i = 2; i <= digits.length; i++) {
+            counts[i] = 0;
+
+            if (digits[i-1] > 0) {
+                counts[i] = counts[i-1];
+            }
+
+            if (digits[i-2] == 1 || digits[i-2] == 2 && digits[i-1] < 7) {
+                counts[i] += counts[i-2];
+            }
+        }
+
+        return counts[digits.length];
+    }
+
+    static class Index {
+        int i;
+        int j;
+
+        Index(int i, int j) {
+            this.i = i;
+            this.j = j;
+        }
+    }
+
+    private static List<Index> getLegalNeighbors(char[][] board, Index index, char nextChar) {
+
+        ArrayList<Index> toReturn = new ArrayList<>();
+
+        int i = index.i;
+        int j = index.j;
+        int length = board.length;
+        int width = board[0].length;
+
+        if (i - 1 > 0 && board[i-1][j] == nextChar) {
+            toReturn.add(new Index(i - 1, j));
+        }
+        if (i + 1 < length && board[i+1][j] == nextChar) {
+            toReturn.add(new Index(i + 1, j));
+        }
+        if (j - 1 > 0 && board[i][j-1] == nextChar) {
+            toReturn.add(new Index(i, j-1));
+        }
+        if (j + 1 < width && board[i][j+1] == nextChar) {
+            toReturn.add(new Index(i, j+1));
+        }
+        return toReturn;
+
+    }
+
+    public static boolean boggle(char[][] board, String string) {
+        Queue<Index> queue = new LinkedList<>();
+        HashSet<Index> visited = new HashSet<>();
+        Index current;
+        List<Index> legalNeighbors = new ArrayList<>();
+        int indexOfChar = 0;
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (string.charAt(indexOfChar) == board[i][j]) {
+                    queue.add(new Index(i,j));
+                }
+            }
+        }
+
+        indexOfChar++;
+
+        while (!queue.isEmpty()) {
+            current = queue.poll();
+            visited.add(current);
+            legalNeighbors = getLegalNeighbors(board, current, string.charAt(indexOfChar));
+            for (Index neighbor : legalNeighbors) {
+                if (!visited.contains(neighbor)) {
+                    queue.add(neighbor);
+                    indexOfChar++;
+                }
+            }
+            if (indexOfChar == string.length() - 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    int strstr(String str, String target)
+    {
+        if (target.length() > str.length()) {
+            return -1;
+        }
+
+        for (int i = 0; i < str.length() - target.length() + 1; i++) {
+            int j = 0;
+            while (str.charAt(i+j) == target.charAt(j++)) {
+                if (j == target.length()) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public static String multiply(String num1, String num2) {
+
+    }
+
+    public static int sumOfTree(TreeNode root) {
+        return (root == null) ? 0 : root.data + sumOfTree(root.left) + sumOfTree(root.right);
+    }
+
+    public static int toSumTree(TreeNode root) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        int oldValue = root.data;
+
+        root.data = toSumTree(root.left) + toSumTree(root.right);
+
+        return root.data + oldValue;
+    }
+
+    public static int maxSumFromLeaf(TreeNode root) {
+        return (root == null) ? 0 : Math.max(maxSumFromLeaf(root.left) + root.data, maxSumFromLeaf(root.right) + root.data);
+    }
+
     public static void main(String[] args) {
         System.out.println(subarrayWithGivenSum(new int[]{1, 4}, 0));
     }
 
     static class Solution {
+
+        public int findKthLargest(int[] nums, int k) {
+            int start = 0, end = nums.length - 1, index = nums.length - k;
+            while (start < end) {
+                int pivot = partion(nums, start, end);
+                if (pivot < index) start = pivot + 1;
+                else if (pivot > index) end = pivot - 1;
+                else return nums[pivot];
+            }
+            return nums[start];
+        }
+
+        private int partion(int[] nums, int start, int end) {
+            int pivot = start, temp;
+            while (start <= end) {
+                while (start <= end && nums[start] <= nums[pivot]) start++;
+                while (start <= end && nums[end] > nums[pivot]) end--;
+                if (start > end) break;
+                temp = nums[start];
+                nums[start] = nums[end];
+                nums[end] = temp;
+            }
+            temp = nums[end];
+            nums[end] = nums[pivot];
+            nums[pivot] = temp;
+            return end;
+        }
+
+//        public int findKthLargest(int[] nums, int k) {
+//            int start = 0;
+//            int end = nums.length - 1;
+//            int index = nums.length - k;
+//            int pivot;
+//
+//            while (start < end) {
+//                pivot = partion(nums, start, end);
+//                if (pivot < index) {
+//                    start = pivot + 1;
+//                } else if (pivot > index) {
+//                    end = pivot - 1;
+//                } else {
+//                    return nums[pivot];
+//                }
+//            }
+//            return nums[start];
+//        }
+//
+//        private int partition(int[] nums, int start, int end) {
+//            int pivot = start;
+//            int temp;
+//
+//            while (start <= end) {
+//                while (start <= end && nums[start] <= nums[pivot]) {
+//                    start++;
+//                }
+//                while (start <= end && nums[end] > nums[pivot]) {
+//                    end--;
+//                }
+//                if (start > end) {
+//                    break;
+//                }
+//            }
+//            temp = nums[start];
+//            nums[start] = nums[end];
+//            nums[end] = temp;
+//            return end;
+//        }
 
         static class Entry {
             int year;
