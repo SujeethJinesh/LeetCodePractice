@@ -987,10 +987,6 @@ public class MicrosoftPrep {
         return -1;
     }
 
-    public static String multiply(String num1, String num2) {
-
-    }
-
     public static int sumOfTree(TreeNode root) {
         return (root == null) ? 0 : root.data + sumOfTree(root.left) + sumOfTree(root.right);
     }
@@ -1010,10 +1006,6 @@ public class MicrosoftPrep {
 
     public static int maxSumFromLeaf(TreeNode root) {
         return (root == null) ? 0 : Math.max(maxSumFromLeaf(root.left) + root.data, maxSumFromLeaf(root.right) + root.data);
-    }
-
-    public static void main(String[] args) {
-        System.out.println(subarrayWithGivenSum(new int[]{1, 4}, 0));
     }
 
     static class Solution {
@@ -1045,45 +1037,6 @@ public class MicrosoftPrep {
             return end;
         }
 
-//        public int findKthLargest(int[] nums, int k) {
-//            int start = 0;
-//            int end = nums.length - 1;
-//            int index = nums.length - k;
-//            int pivot;
-//
-//            while (start < end) {
-//                pivot = partion(nums, start, end);
-//                if (pivot < index) {
-//                    start = pivot + 1;
-//                } else if (pivot > index) {
-//                    end = pivot - 1;
-//                } else {
-//                    return nums[pivot];
-//                }
-//            }
-//            return nums[start];
-//        }
-//
-//        private int partition(int[] nums, int start, int end) {
-//            int pivot = start;
-//            int temp;
-//
-//            while (start <= end) {
-//                while (start <= end && nums[start] <= nums[pivot]) {
-//                    start++;
-//                }
-//                while (start <= end && nums[end] > nums[pivot]) {
-//                    end--;
-//                }
-//                if (start > end) {
-//                    break;
-//                }
-//            }
-//            temp = nums[start];
-//            nums[start] = nums[end];
-//            nums[end] = temp;
-//            return end;
-//        }
 
         static class Entry {
             int year;
@@ -1230,6 +1183,45 @@ public class MicrosoftPrep {
                     searching.year == end.year && searching.month <= end.month;
 
         }
+    }
+
+    public static int longestChain(String[] words) {
+        Set<String> bank = new HashSet<>(); // has a set of all the legal words for O(1) lookup
+
+        bank.addAll(Arrays.asList(words));
+
+        int highest = -1;
+
+        Queue<String> queue = new LinkedList<>();
+        String currentWord;
+        int level;
+        String newWord;
+
+        for (String word : words) {
+            queue.add(word);
+            level = 0;
+            while (!queue.isEmpty()) {
+                level++;
+                for (int i = 0; i < queue.size(); i++) {
+                    currentWord = queue.poll();
+                    for (int j = 0; j < currentWord.length(); j++) {
+                        newWord = currentWord.substring(0, j) + currentWord.substring(j + 1);
+                        if (bank.contains(newWord)) {
+                            queue.add(newWord);
+                        }
+                    }
+                }
+
+            }
+            if (level > highest) {
+                highest = level;
+            }
+        }
+        return highest;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(longestChain(new String[]{"cat", "catc", "catche","rabbit"}));
     }
 
 }
