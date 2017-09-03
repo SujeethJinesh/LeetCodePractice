@@ -307,74 +307,74 @@ public class MicrosoftPrep {
         return toReturn;
     }
 
-    static class Person {
-        String name;
-        int amount;
-        String location;
-        int time;
+//    static class Person {
+//        String name;
+//        int amount;
+//        String location;
+//        int time;
+//
+//        Person(String name, int amount, String location, int time) {
+//            this.name = name;
+//            this.amount = amount;
+//            this.location = location;
+//            this.time = time;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return this.name;
+//        }
+//    }
+//
+//    static class PersonComparator implements Comparator<Person> {
+//
+//        @Override
+//        public int compare(Person p1, Person p2) {
+//            if (p1.time < p2.time) {
+//                return -1;
+//            } else if (p1.time > p2.time) {
+//                return 1;
+//            }
+//            return 0;
+//        }
+//    }
 
-        Person(String name, int amount, String location, int time) {
-            this.name = name;
-            this.amount = amount;
-            this.location = location;
-            this.time = time;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-    }
-
-    static class PersonComparator implements Comparator<Person> {
-
-        @Override
-        public int compare(Person p1, Person p2) {
-            if (p1.time < p2.time) {
-                return -1;
-            } else if (p1.time > p2.time) {
-                return 1;
-            }
-            return 0;
-        }
-    }
-
-    public static List<Person> getSuspiciousActivity(String[] transactions) {
-        Person[] persons = new Person[transactions.length];
-        int index = 0;
-        for (String string : transactions) {
-            String[] personArr = string.split("\\|");
-            String name = personArr[0];
-            int amount = Integer.parseInt(personArr[1]);
-            String location = personArr[2];
-            int time = Integer.parseInt(personArr[3]);
-
-            persons[index++] = new Person(name, amount, location, time);
-        }
-
-        Comparator<Person> comparator = new PersonComparator();
-        PriorityQueue<Person> pq = new PriorityQueue<>(comparator);
-        HashSet<String> alreadyCommittedFraud = new HashSet<>();
-        HashMap<String, Person> lastSeen = new HashMap<>();
-
-        for (Person person : persons) {
-            if (!alreadyCommittedFraud.contains(person.name)) {
-                if (lastSeen.containsKey(person.name) &&
-                        person.time - lastSeen.get(person.name).time < 60 &&
-                        !lastSeen.get(person.name).location.equals(person.location)) {
-                    pq.add(lastSeen.get(person.name));
-                    alreadyCommittedFraud.add(person.name);
-                } else if (person.amount > 3000) {
-                    pq.add(person);
-                    alreadyCommittedFraud.add(person.name);
-                }
-            }
-            lastSeen.put(person.name, person);
-        }
-
-        List<Person> toReturn = new ArrayList<>(pq);
-        return toReturn;
-    }
+//    public static List<Person> getSuspiciousActivity(String[] transactions) {
+//        Person[] persons = new Person[transactions.length];
+//        int index = 0;
+//        for (String string : transactions) {
+//            String[] personArr = string.split("\\|");
+//            String name = personArr[0];
+//            int amount = Integer.parseInt(personArr[1]);
+//            String location = personArr[2];
+//            int time = Integer.parseInt(personArr[3]);
+//
+//            persons[index++] = new Person(name, amount, location, time);
+//        }
+//
+//        Comparator<Person> comparator = new PersonComparator();
+//        PriorityQueue<Person> pq = new PriorityQueue<>(comparator);
+//        HashSet<String> alreadyCommittedFraud = new HashSet<>();
+//        HashMap<String, Person> lastSeen = new HashMap<>();
+//
+//        for (Person person : persons) {
+//            if (!alreadyCommittedFraud.contains(person.name)) {
+//                if (lastSeen.containsKey(person.name) &&
+//                        person.time - lastSeen.get(person.name).time < 60 &&
+//                        !lastSeen.get(person.name).location.equals(person.location)) {
+//                    pq.add(lastSeen.get(person.name));
+//                    alreadyCommittedFraud.add(person.name);
+//                } else if (person.amount > 3000) {
+//                    pq.add(person);
+//                    alreadyCommittedFraud.add(person.name);
+//                }
+//            }
+//            lastSeen.put(person.name, person);
+//        }
+//
+//        List<Person> toReturn = new ArrayList<>(pq);
+//        return toReturn;
+//    }
 
 
     /*********************************************************************************************/
@@ -1220,8 +1220,76 @@ public class MicrosoftPrep {
         return highest;
     }
 
-    public static void main(String[] args) {
-        System.out.println(longestChain(new String[]{"cat", "catc", "catche","rabbit"}));
-    }
+
+//    static class Person {
+//        int level;
+//        int experience;
+//        int possibleMentors;
+//
+//        Person(int level, int experience) {
+//            this.level = level;
+//            this.experience = experience;
+//            this.possibleMentors = 0;
+//        }
+//
+//        void addOneMentor() {
+//            this.possibleMentors++;
+//        }
+//    }
+//
+//    static class PersonComparator implements Comparator<Person> {
+//        public int compare(Person p1, Person p2) {
+//            if (p1.level > p2.level && p1.experience > p2.experience) {
+//                return 1;
+//            } else if (p1.level < p2.level && p1.experience < p2.experience) {
+//                return -1;
+//            }
+//            return 0;
+//        }
+//    }
+//
+//    public static void main(String[] args) throws Exception {
+//        Scanner scan = new Scanner(System.in);
+//        int number = scan.nextInt();
+//        int level;
+//        int experience;
+//        Person temp;
+//        List<Person> people = new ArrayList<>();
+//        List<Person> peopleToPrint = new ArrayList<>();
+//
+//        PersonComparator comparator = new PersonComparator();
+//
+//        while (scan.hasNext()) {
+//            level = scan.nextInt();
+//            experience = scan.nextInt();
+//            Person newPerson = new Person(level, experience);
+//
+//            for (int i = 0; i < people.size(); i++) {
+//                Person current = people.get(i);
+//                int j = i;
+//
+//                while (j > 0) {
+//                    if (comparator.compare(current, newPerson) < 0) {
+//                        temp = people.get(j - 1);
+//                        people.set(j - 1, current);
+//                        people.set(j, temp);
+//                        people.get(j - 1).addOneMentor();
+//                    } else {
+//                        people.add(i, newPerson);
+//                        newPerson.addOneMentor();
+//                    }
+//                    j--;
+//                }
+//
+//            }
+//
+//            people.add(newPerson);
+//            peopleToPrint.add(newPerson);
+//        }
+//
+//        for (Person person : peopleToPrint) {
+//            System.out.print(person.possibleMentors + " ");
+//        }
+//    }
 
 }
