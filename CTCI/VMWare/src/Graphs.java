@@ -23,7 +23,7 @@ public class Graphs {
     }
 
     /**
-     * NOT SURE IF THIS WORKS
+     * UNIMPLEMENTED
      * @param root
      * @param node
      * @return
@@ -41,39 +41,13 @@ public class Graphs {
                 return null;
             } else if (root.left == null && root.right != null) {
                 return root.right;
-            } else {
+            } else if (root.left != null && root.right == null) {
                 return root.left;
+            } else {
+                //Find inorder successor and return that
             }
         }
         return root;
-    }
-
-    public List<Node> BFS(Node node, Graph graph) {
-
-        Queue<Node> queue = new LinkedList<>();
-        HashSet visited = new HashSet();
-        LinkedList<Node> list = new LinkedList<>();
-        List<Node> currentNeighbors;
-
-        Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
-
-        queue.add(node);
-        visited.add(node);
-
-        while (!queue.isEmpty()) {
-            Node removed = queue.remove();
-            list.add(removed);
-
-            currentNeighbors = adjacencyList.get(removed);
-
-            for (Node item : currentNeighbors) {
-                if (!visited.contains(item)) {
-                    queue.add(item);
-                    visited.add(item);
-                }
-            }
-        }
-        return list;
     }
 
     public List<Node> DFS(Node node, Graph graph) {
