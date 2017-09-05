@@ -1,6 +1,4 @@
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.LinkedList;
 
 /**
  * Created by admin on 2/2/17.
@@ -50,9 +48,41 @@ public class Graphs {
         return root;
     }
 
+<<<<<<< HEAD
     public List<Node> DFS(Node node, Graph graph) {
+=======
+    public LinkedList BFS(Node node, Graph graph) {
+
+        Queue queue = (Queue) new LinkedList();
+        HashSet visited = new HashSet();
+        LinkedList list = new LinkedList();
+        List<Node> currentNeighbors;
+
         Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
-        LinkedList<Node> list = new LinkedList<>();
+
+        queue.add(node);
+        visited.add(node);
+
+        while (!queue.isEmpty()) {
+            Node removed = (Node) queue.remove();
+            list.add(removed);
+
+            currentNeighbors = adjacencyList.get(removed);
+
+            for (Node item : currentNeighbors) {
+                if (!visited.contains(item)) {
+                    queue.add(item);
+                    visited.add(item);
+                }
+            }
+        }
+        return list;
+    }
+
+    public LinkedList DFS(Node node, Graph graph) {
+>>>>>>> 3cec76dcc2a8198da68fc36fbbf8a27e1657852b
+        Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
+        LinkedList list = new LinkedList();
 
         HashSet<Node> visited = new HashSet<>();
         Stack<Node> stack = new Stack<>();
@@ -291,4 +321,149 @@ public class Graphs {
         charArray[j] = temp;
         return String.valueOf(charArray);
     }
+
+    public int minTreeHeight(TreeNode root) {
+        return (root == null) ? 0 : Math.min(minTreeHeight(root.left) + 1, minTreeHeight(root.right) + 1);
+    }
+
+    public TreeNode makeBSTFromPreOrder(int pre[]) {
+        int size = pre.length;
+
+        // The first element of pre[] is always root
+        TreeNode root = new TreeNode(pre[0]);
+
+        Stack<TreeNode> s = new Stack<TreeNode>();
+
+        // Push root
+        s.push(root);
+
+        // Iterate through rest of the size-1 items of given preorder array
+        for (int i = 1; i < size; ++i) {
+            TreeNode temp = null;
+
+            /* Keep on popping while the next value is greater than
+             stack's top value. */
+            while (!s.isEmpty() && pre[i] > s.peek().data) {
+                temp = s.pop();
+            }
+
+            // Make this greater value as the right child and push it to the stack
+            if (temp != null) {
+                temp.right = new TreeNode(pre[i]);
+                s.push(temp.right);
+            }
+
+            // If the next value is less than the stack's top value, make this value
+            // as the left child of the stack's top node. Push the new node to stack
+            else {
+                temp = s.peek();
+                temp.left = new TreeNode(pre[i]);
+                s.push(temp.left);
+            }
+        }
+
+        return root;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isPalindrome("abc"));
+        System.out.println(isPalindrome("ab234aasc"));
+        System.out.println(isPalindrome("abdsgesc"));
+        System.out.println(isPalindrome("abcxssss"));
+        System.out.println(isPalindrome("tacocat"));
+        System.out.println(isPalindrome("abcdcba"));
+    }
+
+    public static String reverseString(String string) {
+        char[] chars = string.toCharArray();
+        int i = 0;
+        int j = string.length() - 1;
+        char temp;
+        while (i < j) {
+            temp = chars[i];
+            chars[i++] = chars[j];
+            chars[j--] = temp;
+        }
+        return new String(chars);
+    }
+
+    public static boolean isPalindrome(String string) {
+        int i = 0;
+        int j = string.length() - 1;
+
+        while (i < j) {
+            if (string.charAt(i++) != string.charAt(j--)){
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Node deleteNodesGreaterThanK(Node head, int k) {
+        if (head == null) {
+            return null;
+        }
+
+        for (Node curr = head, prev = curr; curr != null; prev = curr, curr = curr.next) {
+            if (curr.data > k) {
+                if (curr == head) {
+                    head = curr.next;
+                } else {
+                    prev.next = curr.next;
+                }
+            }
+        }
+        return head;
+    }
+
+//    Node Reverse(Node head) {
+//        if (head == null) {
+//            return null;
+//        }
+//
+//        Node current = head;
+//        Node prev = current.prev;
+//        Node next = current.next;
+//        Node temp;
+//
+//        while (current != null) {
+//            head = prev;
+//
+//        }
+//    }
+
+}
+
+/**
+ * CAN USE QUICKSELECT FOR THIS AS WELL. IF YOU SEE HEAPS, ALSO SEE IF QUICKSELECT IS AN OPTION
+ * @return
+ */
+class medianOfUnsortedArray {
+    private Queue<Integer> low = new PriorityQueue<>(Comparator.reverseOrder());
+    private Queue<Integer> high = new PriorityQueue<>();
+
+    public void add(int number) {
+        Queue<Integer> target = low.size() <= high.size() ? low : high;
+        target.add(number);
+        balance();
+    }
+
+    private void balance() {
+        while(!low.isEmpty() && !high.isEmpty() && low.peek() > high.peek()) {
+            Integer lowHead= low.poll();
+            Integer highHead = high.poll();
+            low.add(highHead);
+            high.add(lowHead);
+        }
+    }
+
+    public double median() {
+        if(low.isEmpty() && high.isEmpty()) {
+            throw new IllegalStateException("Heap is empty");
+        } else {
+            return low.size() == high.size() ? (low.peek() + high.peek()) / 2.0 : low.peek();
+        }
+    }
+
 }
