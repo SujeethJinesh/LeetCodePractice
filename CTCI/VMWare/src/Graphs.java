@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by admin on 2/2/17.
@@ -31,9 +33,9 @@ public class Graphs {
         if (root == null) {
             throw new Exception();
         } else if (root.data > node.data) {
-            root.left = BSTAdd(root.left, node);
+            root.left = BSTRemove(root.left, node);
         } else if (root.data < node.data) {
-            root.right = BSTAdd(root.right, node);
+            root.right = BSTRemove(root.right, node);
         } else {
             if (root.left == null && root.right == null) {
                 return null;
@@ -359,15 +361,6 @@ public class Graphs {
         return root;
     }
 
-    public static void main(String[] args) {
-        System.out.println(isPalindrome("abc"));
-        System.out.println(isPalindrome("ab234aasc"));
-        System.out.println(isPalindrome("abdsgesc"));
-        System.out.println(isPalindrome("abcxssss"));
-        System.out.println(isPalindrome("tacocat"));
-        System.out.println(isPalindrome("abcdcba"));
-    }
-
     public static String reverseString(String string) {
         char[] chars = string.toCharArray();
         int i = 0;
@@ -427,6 +420,171 @@ public class Graphs {
 //        }
 //    }
 
+    public static String changeDateFormat(String paragraph) {
+        String[] words = paragraph.split("[\\s\\.]+");
+        StringBuilder sb = new StringBuilder();
+        for (String word : words) {
+            if (word.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")) {
+                word = fixDate(word);
+            }
+            sb.append(word + " ");
+        }
+        return sb.toString().trim();
+    }
+
+    private static String fixDate(String date) {
+        String[] dates = date.split("/");
+        return dates[1] + "/" + dates[0] + "/" + dates[2];
+    }
+
+    public static void main(String[] args) {
+//     ArrayList<String> strings = new ArrayList<String>();
+//     strings.add("Hello, World!");
+//     strings.add("Welcome to CoderPad.");
+//     strings.add("This pad is running Java 8.");
+
+//     for (String string : strings) {
+//       System.out.println(string);
+//     }
+
+        int[] arr = new int[] {9, 5, 2, 18, 5, 10, 3, 5}; //15
+        // //int[] arr1 = new int[] {5}; //exception
+        int[] arr2 = new int[] {-1, -18, 5, 11, 22, 64}; //17
+
+        System.out.println(shareMin(arr));
+        //System.out.println(shareMin(arr1));
+        System.out.println(shareMin(arr2));
+
+    }
+
+    public static int shareMin(int[] shares) {
+
+        if (shares == null) {
+            throw new IllegalArgumentException("Cannot have null value.");
+        }
+
+        if (shares.length < 2) {
+            throw new IllegalArgumentException("Cannot have array length less than 2.");
+        }
+
+        int toReturn = Integer.MIN_VALUE;
+        int maximum = shares[0];
+        int currentDifference;
+
+        for (int i = 1; i < shares.length; i++) {
+            if (shares[i] > maximum) {
+                maximum = shares[i++];
+            }
+
+            currentDifference = maximum - shares[i];
+
+            if (currentDifference > toReturn) {
+                toReturn = currentDifference;
+            }
+        }
+        return toReturn;
+    }
+
+//    public int maxProfit(int[] prices, int fee) {
+//
+//
+//
+//    }
+
+    static String[] replace(String[] lines) {
+
+        String[] arr = new String[lines.length];
+
+        for (int i = 0; i < lines.length; i++) {
+            String string = lines[i];
+            if (string.contains("API")) {
+                arr[i] = api(string);
+            } else if (string.contains("BANK")) {
+                arr[i] = bank(string);
+            }
+        }
+
+        return arr;
+    }
+
+    static String api(String string) {
+        Pattern p = Pattern.compile("card=(\\d*)");
+        Matcher matcher = p.matcher(string);
+        if (matcher.find()) {
+            String number = matcher.group();
+            String newNumber = number.substring(5, 11) + "XXXXXXXXXXXXXXXXXXXX" + number.substring(number.length() - 4);
+            return string.substring(0, string.indexOf("card=") + 5) + newNumber + string.substring(string.indexOf("card=") + number.length());
+        } else {
+            return null;
+        }
+    }
+
+    static String bank(String string) {
+        Pattern p = Pattern.compile("card=(\\d*XXXXXXXXXXXXXXXXXXXX\\d*)");
+        Matcher matcher = p.matcher(string);
+        if (matcher.find()) {
+            String number = matcher.group();
+            System.out.println(number);
+            String newNumber = number.substring(5, 11) + number.substring(5, 11) + number.substring(number.length() - 4, number.length());
+            return string.substring(0, string.indexOf("card=") + 5) + newNumber + string.substring(string.indexOf("card=") + number.length());
+        } else {
+            return null;
+        }
+    }
+
+}
+
+class Sum3 {
+
+    private HashSet<Integer> sums;
+    private ArrayList<Integer> list;
+    private int lastIndex;
+
+    public Sum3() {
+        this.lastIndex = 0;
+        this.list = new ArrayList<>();
+        this.sums = new HashSet<>();
+    }
+
+    /**
+     * Adds/appends list of integers at the end of internal list.
+     */
+    public void addLast(int[] list) {
+        for (int i : list) {
+            this.list.add(i);
+        }
+        int sum = 0;
+        for (; this.lastIndex < this.list.size() - 2; this.lastIndex++) {
+            for (int j = this.lastIndex; j < 3; j++) {
+                sum += this.list.get(j);
+            }
+            this.sums.add(sum);
+        }
+        if (this.lastIndex > this.list.size() - 3) {
+            this.lastIndex = this.list.size() - 3;
+        }
+    }
+
+    /**
+     * Returns boolean representing if any three consecutive integers in the
+     * internal list have given sum.
+     */
+    public boolean containsSum3(int sum) {
+        return this.sums.contains(sum);
+    }
+
+    public static void main(String[] args) {
+        Sum3 s = new Sum3();
+
+        s.addLast(new int[] { 1, 2, 3 });
+
+        System.out.println(s.containsSum3(6));
+        System.out.println(s.containsSum3(9));
+
+        s.addLast(new int[] { 4 });
+
+        System.out.println(s.containsSum3(9));
+    }
 }
 
 /**

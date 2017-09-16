@@ -1,4 +1,5 @@
 import apple.laf.JRSUIUtils;
+import org.omg.PortableInterceptor.INACTIVE;
 import sun.awt.image.ImageWatched;
 
 import java.lang.reflect.Array;
@@ -203,78 +204,78 @@ public class MicrosoftPrep {
 
     /********************************************************************************************************************/
 
-    // Returns a HashSet of the indices changed to 2
-    private static HashSet<Index> BFS(int[][] arr, Index index) {
-
-        HashSet<Index> toReturn = new HashSet<>();
-        Queue<Index> q = new LinkedList<>();
-        Index polled_index;
-        ArrayList<Index> legalNeighbors;
-
-        toReturn.add(index);
-
-        while (!q.isEmpty()) {
-            polled_index = q.poll();
-            legalNeighbors = getLegalNeighbors(arr, polled_index);
-            for (Index i : legalNeighbors) {
-                if (!toReturn.contains(i)) {
-                    q.add(i);
-                    toReturn.add(i);
-                }
-            }
-        }
-        return toReturn;
-    }
-
-    private static ArrayList<Index> getLegalNeighbors(int[][] arr, Index index) {
-        ArrayList<Index> toReturn = new ArrayList<>();
-
-        int i = index.i;
-        int j = index.j;
-        int length = arr.length;
-        int width = arr[0].length;
-
-        if (i - 1 > 0 && arr[i-1][j] == 1) {
-            toReturn.add(new Index(i - 1, j));
-        }
-        if (i + 1 < length && arr[i+1][j] == 1) {
-            toReturn.add(new Index(i + 1, j));
-        }
-        if (j - 1 > 0 && arr[i][j-1] == 1) {
-            toReturn.add(new Index(i, j-1));
-        }
-        if (j + 1 < width && arr[i][j+1] == 1) {
-            toReturn.add(new Index(i, j+1));
-        }
-        return toReturn;
-    }
-
-    public static int rottenOranges(int[][] arr) {
-        int sum = 0;
-        HashSet<Index> set = new HashSet<>(); // contains all indices that are already rotten
-        Index index;
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                if (arr[i][j] == 2) {
-                    index = new Index(i, j);
-                    set.addAll(BFS(arr, index));
-                }
-            }
-        }
-
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                if (arr[i][j] == 1 && !set.contains(new Index(i,j))) {
-                    return -1;
-                }
-                if (arr[i][j] == 2 && !set.contains(new Index(i,j))) {
-                    sum++;
-                }
-            }
-        }
-        return sum;
-    }
+//    // Returns a HashSet of the indices changed to 2
+//    private static HashSet<Index> BFS(int[][] arr, Index index) {
+//
+//        HashSet<Index> toReturn = new HashSet<>();
+//        Queue<Index> q = new LinkedList<>();
+//        Index polled_index;
+//        ArrayList<Index> legalNeighbors;
+//
+//        toReturn.add(index);
+//
+//        while (!q.isEmpty()) {
+//            polled_index = q.poll();
+//            legalNeighbors = getLegalNeighbors(arr, polled_index);
+//            for (Index i : legalNeighbors) {
+//                if (!toReturn.contains(i)) {
+//                    q.add(i);
+//                    toReturn.add(i);
+//                }
+//            }
+//        }
+//        return toReturn;
+//    }
+//
+//    private static ArrayList<Index> getLegalNeighbors(int[][] arr, Index index) {
+//        ArrayList<Index> toReturn = new ArrayList<>();
+//
+//        int i = index.i;
+//        int j = index.j;
+//        int length = arr.length;
+//        int width = arr[0].length;
+//
+//        if (i - 1 > 0 && arr[i-1][j] == 1) {
+//            toReturn.add(new Index(i - 1, j));
+//        }
+//        if (i + 1 < length && arr[i+1][j] == 1) {
+//            toReturn.add(new Index(i + 1, j));
+//        }
+//        if (j - 1 > 0 && arr[i][j-1] == 1) {
+//            toReturn.add(new Index(i, j-1));
+//        }
+//        if (j + 1 < width && arr[i][j+1] == 1) {
+//            toReturn.add(new Index(i, j+1));
+//        }
+//        return toReturn;
+//    }
+//
+//    public static int rottenOranges(int[][] arr) {
+//        int sum = 0;
+//        HashSet<Index> set = new HashSet<>(); // contains all indices that are already rotten
+//        Index index;
+//
+//        for (int i = 0; i < arr.length; i++) {
+//            for (int j = 0; j < arr[0].length; j++) {
+//                if (arr[i][j] == 2) {
+//                    index = new Index(i, j);
+//                    set.addAll(BFS(arr, index));
+//                }
+//            }
+//        }
+//
+//        for (int i = 0; i < arr.length; i++) {
+//            for (int j = 0; j < arr[0].length; j++) {
+//                if (arr[i][j] == 1 && !set.contains(new Index(i,j))) {
+//                    return -1;
+//                }
+//                if (arr[i][j] == 2 && !set.contains(new Index(i,j))) {
+//                    sum++;
+//                }
+//            }
+//        }
+//        return sum;
+//    }
     /********************************************************************************************************************/
 
     public static List<List<TreeNode>> printByLevel(TreeNode root) {
@@ -901,74 +902,64 @@ public class MicrosoftPrep {
         return counts[digits.length];
     }
 
-    static class Index {
-        int i;
-        int j;
-
-        Index(int i, int j) {
-            this.i = i;
-            this.j = j;
-        }
-    }
-
-    private static List<Index> getLegalNeighbors(char[][] board, Index index, char nextChar) {
-
-        ArrayList<Index> toReturn = new ArrayList<>();
-
-        int i = index.i;
-        int j = index.j;
-        int length = board.length;
-        int width = board[0].length;
-
-        if (i - 1 > 0 && board[i-1][j] == nextChar) {
-            toReturn.add(new Index(i - 1, j));
-        }
-        if (i + 1 < length && board[i+1][j] == nextChar) {
-            toReturn.add(new Index(i + 1, j));
-        }
-        if (j - 1 > 0 && board[i][j-1] == nextChar) {
-            toReturn.add(new Index(i, j-1));
-        }
-        if (j + 1 < width && board[i][j+1] == nextChar) {
-            toReturn.add(new Index(i, j+1));
-        }
-        return toReturn;
-
-    }
-
-    public static boolean boggle(char[][] board, String string) {
-        Queue<Index> queue = new LinkedList<>();
-        HashSet<Index> visited = new HashSet<>();
-        Index current;
-        List<Index> legalNeighbors = new ArrayList<>();
-        int indexOfChar = 0;
-
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length; j++) {
-                if (string.charAt(indexOfChar) == board[i][j]) {
-                    queue.add(new Index(i,j));
-                }
-            }
-        }
-
-        indexOfChar++;
-
-        while (!queue.isEmpty()) {
-            current = queue.poll();
-            visited.add(current);
-            legalNeighbors = getLegalNeighbors(board, current, string.charAt(indexOfChar));
-            for (Index neighbor : legalNeighbors) {
-                if (!visited.contains(neighbor)) {
-                    queue.add(neighbor);
-                    indexOfChar++;
-                }
-            }
-            if (indexOfChar == string.length() - 1) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    private static List<Index> getLegalNeighbors(char[][] board, Index index, char nextChar) {
+//
+//        ArrayList<Index> toReturn = new ArrayList<>();
+//
+//        int i = index.i;
+//        int j = index.j;
+//        int length = board.length;
+//        int width = board[0].length;
+//
+//        if (i - 1 > 0 && board[i-1][j] == nextChar) {
+//            toReturn.add(new Index(i - 1, j));
+//        }
+//        if (i + 1 < length && board[i+1][j] == nextChar) {
+//            toReturn.add(new Index(i + 1, j));
+//        }
+//        if (j - 1 > 0 && board[i][j-1] == nextChar) {
+//            toReturn.add(new Index(i, j-1));
+//        }
+//        if (j + 1 < width && board[i][j+1] == nextChar) {
+//            toReturn.add(new Index(i, j+1));
+//        }
+//        return toReturn;
+//
+//    }
+//
+//    public static boolean boggle(char[][] board, String string) {
+//        Queue<Index> queue = new LinkedList<>();
+//        HashSet<Index> visited = new HashSet<>();
+//        Index current;
+//        List<Index> legalNeighbors = new ArrayList<>();
+//        int indexOfChar = 0;
+//
+//        for (int i = 0; i < board.length; i++) {
+//            for (int j = 0; j < board[0].length; j++) {
+//                if (string.charAt(indexOfChar) == board[i][j]) {
+//                    queue.add(new Index(i,j));
+//                }
+//            }
+//        }
+//
+//        indexOfChar++;
+//
+//        while (!queue.isEmpty()) {
+//            current = queue.poll();
+//            visited.add(current);
+//            legalNeighbors = getLegalNeighbors(board, current, string.charAt(indexOfChar));
+//            for (Index neighbor : legalNeighbors) {
+//                if (!visited.contains(neighbor)) {
+//                    queue.add(neighbor);
+//                    indexOfChar++;
+//                }
+//            }
+//            if (indexOfChar == string.length() - 1) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     int strstr(String str, String target)
     {
@@ -1220,6 +1211,101 @@ public class MicrosoftPrep {
         return highest;
     }
 
+    static class Index {
+        int i;
+        int j;
+        char c;
+
+        Index(int i, int j, char c) {
+            this.i = i;
+            this.j = j;
+            this.c = c;
+        }
+    }
+
+    // Returns a HashSet of the indices changed to 2
+    private static HashSet<Index> BFS(Index[][] arr, Index index) {
+
+        HashSet<Index> toReturn = new HashSet<>();
+        Queue<Index> q = new LinkedList<>();
+        Index polledIndex;
+        ArrayList<Index> legalNeighbors;
+
+        toReturn.add(index);
+        q.add(index);
+
+        while (!q.isEmpty()) {
+            polledIndex = q.poll();
+            legalNeighbors = getLegalNeighbors(arr, polledIndex);
+            for (Index i : legalNeighbors) {
+                if (!toReturn.contains(i)) {
+                    q.add(i);
+                    toReturn.add(i);
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    private static ArrayList<Index> getLegalNeighbors(Index[][] arr, Index index) {
+        ArrayList<Index> toReturn = new ArrayList<>();
+
+        int i = index.i;
+        int j = index.j;
+        int length = arr.length;
+        int width = arr[0].length;
+
+        if (i - 1 > 0 && arr[i-1][j].c == 'Y') {
+            toReturn.add(arr[i-1][j]);
+        }
+        if (i + 1 < length && arr[i+1][j].c == 'Y') {
+            toReturn.add(arr[i+1][j]);
+        }
+        if (j - 1 > 0 && arr[i][j-1].c == 'Y') {
+            toReturn.add(arr[i][j-1]);
+        }
+        if (j + 1 < width && arr[i][j+1].c == 'Y') {
+            toReturn.add(arr[i][j+1]);
+        }
+        return toReturn;
+    }
+
+    static int friendCircles(String[] friends) {
+
+        Index[][] matrix = new Index[friends.length][friends[0].length()];
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : friends) {
+            sb.append(s);
+        }
+
+        String newString = sb.toString();
+
+        HashSet<Index> set = new HashSet<>();
+        Index index;
+        int sum = 0;
+        int stringIndex = 0;
+
+        for (int i = 0; i < friends.length; i++) {
+            for (int j = 0; j < friends[0].length(); j++) {
+                matrix[i][j] = new Index(i, j, newString.charAt(stringIndex++));
+            }
+        }
+
+        for (int i = 0; i < friends.length; i++) {
+            for (int j = 0; j < friends[0].length(); j++) {
+                index = matrix[i][j];
+                if (matrix[i][j].c == 'Y' && !set.contains(index)) {
+                    set.addAll(BFS(matrix, index));
+                    sum++;
+                }
+            }
+
+        }
+
+        return sum;
+    }
 
 //    static class Person {
 //        int level;
@@ -1292,4 +1378,177 @@ public class MicrosoftPrep {
 //        }
 //    }
 
+    public static int fibonacci(int n) {
+        int first = 1;
+        int second = 1;
+
+        int result = 1;
+
+        for (int i = 2; i < n; i++) {
+            result = first + second;
+            first = second;
+            second = result;
+        }
+
+        return result;
+    }
+
+    public static int fibonacciRecursive(int n) {
+        return n <= 2 ? 1 : fibonacciRecursive(n - 1) + fibonacciRecursive(n - 2);
+    }
+
+    public static boolean isBST(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        int low = Integer.MIN_VALUE;
+        int high = Integer.MAX_VALUE;
+
+        return isBSTHelper(low, high, root);
+    }
+
+    public static boolean isBSTHelper(int low, int high, TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        boolean left = false;
+        boolean right = false;
+        if (root.left.data < root.data  && root.left.data > low) {
+            left = isBSTHelper(low, root.left.data, root.left);
+        }
+        if (root.right.data > root.data  && root.right.data < high) {
+            right = isBSTHelper(root.right.data, high, root.right);
+        }
+        return left && right;
+    }
+
+    public int solution(String alec, String bob) {
+        //writing in separate editor and copying over
+
+        char alecChar;
+        char bobChar;
+        int alecWins = 0;
+        int alecInt;
+        int bobInt;
+        HashSet intSet = new HashSet(Arrays.asList('1','2','3','4','5','6','7','8','9'));
+
+        for (int i = 0; i < alec.length(); i++) {
+            alecChar = alec.charAt(i);
+            bobChar = bob.charAt(i);
+
+            if (alecChar == 'A' && bobChar != 'A') {
+                alecWins++;
+            } else if (alecChar == 'K' &&
+                    bobChar != 'A' &&
+                    bobChar != 'K') {
+                alecWins++;
+            } else if (alecChar == 'Q' &&
+                    bobChar != 'A' &&
+                    bobChar != 'K' &&
+                    bobChar != 'Q') {
+                alecWins++;
+            } else if (alecChar == 'J' &&
+                    bobChar != 'A' &&
+                    bobChar != 'K' &&
+                    bobChar != 'Q' &&
+                    bobChar != 'J') {
+                alecWins++;
+            } else if (alecChar == 'T' &&
+                    bobChar != 'A' &&
+                    bobChar != 'K' &&
+                    bobChar != 'Q' &&
+                    bobChar != 'J' &&
+                    bobChar != 'T') {
+                alecWins++;
+            } else if (intSet.contains(alecChar) && intSet.contains(bobChar)) {
+                alecInt = Integer.parseInt(String.valueOf(alecChar));
+                bobInt = Integer.parseInt(String.valueOf(bobChar));
+
+                if (alecInt > bobInt) {
+                    alecWins++;
+                }
+            }
+        }
+        return alecWins;
+    }
+
+    public static int solution(int[] arr) {
+        if (arr.length == 0) {
+            return 0;
+        }
+
+        if (arr.length == 1) {
+            return 1;
+        }
+
+        int endPointer = 0;
+        int length = 1;
+        HashMap<Integer, Integer> hm = new HashMap<>();
+
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[endPointer] == arr[i]) {
+                length--;
+                endPointer++;
+            }
+            length++;
+            if (hm.containsKey(arr[i])) {
+                hm.put(arr[i], hm.get(arr[i]) + 1);
+            } else {
+                hm.put(arr[i], 1);
+            }
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (hm.get(arr[i]) > 1) {
+                length--;
+            } else {
+                return length;
+            }
+        }
+
+        return length;
+    }
+
+    public static int maxSubarray(int[] arr) {
+
+        int maxSoFar = arr[0];
+        int maxOverall = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            maxSoFar = Integer.max(arr[i], maxSoFar + arr[i]);
+            maxOverall = Integer.max(maxOverall, maxSoFar);
+        }
+
+        return maxOverall;
+    }
+
+    public static int maxProductSubarray(int[] arr) {
+        int minSoFar = arr[0];
+        int maxSoFar = arr[0];
+        int maxOverall = arr[0];
+
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > 0) {
+                maxSoFar = maxSoFar*arr[i];
+                minSoFar = Integer.min(minSoFar*arr[i], arr[i]);
+            } else if (arr[i] == 0) {
+                maxSoFar = 1;
+                minSoFar = 1;
+            } else {
+                int temp = maxSoFar;
+                maxSoFar = Integer.max(arr[i], minSoFar*arr[i]);
+                minSoFar = temp*arr[i];
+            }
+            maxOverall = Integer.max(maxOverall, maxSoFar);
+        }
+        return maxOverall;
+    }
+
+
+
+    public static void main(String[] args) {
+        System.out.println(maxProductSubarray(new int[]{6, -3, -10, 0, 2}));
+    }
 }
