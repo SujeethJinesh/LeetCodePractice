@@ -50,9 +50,6 @@ public class Graphs {
         return root;
     }
 
-<<<<<<< HEAD
-    public List<Node> DFS(Node node, Graph graph) {
-=======
     public LinkedList BFS(Node node, Graph graph) {
 
         Queue queue = (Queue) new LinkedList();
@@ -82,7 +79,6 @@ public class Graphs {
     }
 
     public LinkedList DFS(Node node, Graph graph) {
->>>>>>> 3cec76dcc2a8198da68fc36fbbf8a27e1657852b
         Map<Node, List<Node>> adjacencyList = graph.getAdjacencyList();
         LinkedList list = new LinkedList();
 

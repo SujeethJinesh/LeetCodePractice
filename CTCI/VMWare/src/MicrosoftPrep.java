@@ -1546,9 +1546,156 @@ public class MicrosoftPrep {
         return maxOverall;
     }
 
+    public static void subarrayGivenSum(int[] arr, int num) {
+        int i = 0;
+        int j = 0;
 
+        int sum = arr[i];
+
+        while (j < arr.length - 1 && i <= j) {
+            if (sum == num) {
+                System.out.println("first: " + i + ", second: " + j);
+                return;
+            } else if (sum > num) {
+                sum -= arr[i++];
+            } else {
+                sum += arr[++j];
+            }
+        }
+        System.out.println("no indices found");
+    }
+
+    static void printDiagnolsOfMatrix(int[][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            int new_i = i;
+            int new_j = 0;
+            System.out.print(arr[i][new_j] + " ");
+            while (--new_i >= 0 && ++new_j < arr[0].length) {
+                System.out.print(arr[new_i][new_j] + " ");
+            }
+            System.out.println();
+        }
+
+        for (int j = 1; j < arr[0].length; j++) {
+            int new_j = j;
+            int new_i = arr.length - 1;
+            System.out.print(arr[new_i][j] + " ");
+            while (--new_i >= 0 && ++new_j < arr[0].length) {
+                System.out.print(arr[new_i][new_j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    static HashMap<Integer, List<Node>> verticalOrderTraversalHelper(Node root, int horizontalDistance, HashMap<Integer, List<Node>> hm) {
+        if (root == null) {
+            return null;
+        }
+        if (hm.containsKey(horizontalDistance)) {
+            hm.get(horizontalDistance).add(root);
+        } else {
+            ArrayList<Node> al = new ArrayList<>();
+            al.add(root);
+            hm.put(horizontalDistance, al);
+        }
+        HashMap<Integer, List<Node>> left = verticalOrderTraversalHelper(root.left, horizontalDistance - 1, hm);
+        HashMap<Integer, List<Node>> right = verticalOrderTraversalHelper(root.right, horizontalDistance + 1, hm);
+        if (left != null) {
+            hm.putAll(left);
+        }
+        if (right != null) {
+            hm.putAll(right);
+        }
+        return hm;
+    }
+
+    static void verticalOrderTraversal(Node root) {
+        HashMap<Integer, List<Node>> hm = new HashMap<>();
+        hm = verticalOrderTraversalHelper(root, 0, hm);
+
+        for (Map.Entry<Integer, List<Node>> entry : hm.entrySet()) {
+            for (Node node : entry.getValue()) {
+                System.out.print(node.data + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    static boolean isNeighbor(String candidate, String word) {
+        if (candidate.length() != word.length()) {
+            return false;
+        }
+
+        int mutations = 0;
+
+        for (int i = 0; i < candidate.length(); i++) {
+            if (candidate.charAt(i) != word.charAt(i)) {
+                if (mutations == 1) {
+                    return false;
+                } else {
+                    mutations++;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    static int shortestLengthChain(String word, String target, Set<String> dict) {
+        int length = 0;
+
+        Queue<String> q = new LinkedList<>();
+        Set<String> visited = new HashSet<>();
+        String curr;
+        int queueSize;
+
+        q.add(word);
+
+        while (!q.isEmpty()) {
+            queueSize = q.size();
+            length++;
+            for (int i = 0; i < queueSize; i++) {
+                curr = q.poll();
+                for (String candidate : dict) {
+                    if (curr.equals(target)) {
+                        return length;
+                    }
+                    if (!visited.contains(candidate) && isNeighbor(candidate, curr)) {
+                        q.add(candidate);
+                    }
+                }
+                visited.add(curr);
+            }
+        }
+
+        return -1;
+    }
+
+    static int sumOfKthLevel(TreeNode root, int level) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        int queueSize;
+        int k = 0;
+        int sum = 0;
+
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            queueSize = queue.size();
+            for (int i = 0; i < queueSize; i++) {
+                if (k == level) {
+                    sum += queue.poll().data;
+                } else {
+                    queue.add(queue.poll());
+                }
+            }
+            if (k == level) {
+                return sum;
+            }
+            k++;
+        }
+        return sum;
+    }
 
     public static void main(String[] args) {
-        System.out.println(maxProductSubarray(new int[]{6, -3, -10, 0, 2}));
     }
 }
