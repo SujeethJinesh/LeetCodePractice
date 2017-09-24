@@ -1696,6 +1696,10 @@ public class MicrosoftPrep {
         return sum;
     }
 
+    public int lengthOfLIS(int[] nums) {
+        
+    }
+
     public static void main(String[] args) {
     }
 }
