@@ -1,4 +1,5 @@
 import apple.laf.JRSUIUtils;
+import com.sun.source.tree.BinaryTree;
 import org.omg.PortableInterceptor.INACTIVE;
 import sun.awt.image.ImageWatched;
 
@@ -32,41 +33,41 @@ public class MicrosoftPrep {
         return head;
     }
 
-    public Node reverseEveryK(Node head, int k) {
+//    public Node reverseEveryK(Node head, int k) {
+//
+//        if (head == null) {
+//            return null;
+//        }
+//
+//        Node prev = null;
+//        Node curr = head;
+//        Node next = null;
+//
+//        int count = 0;
+//
+//        while (count++ < k && curr != null) {
+//            next = curr.next;
+//            curr.next = prev;
+//            prev = curr;
+//            curr = next;
+//        }
+//
+//        if (next != null) {
+//            head.next = reverseEveryK(next, k);
+//        }
+//
+//        head = prev;
+//
+//        return head;
+//    }
 
-        if (head == null) {
-            return null;
-        }
-
-        Node prev = null;
-        Node curr = head;
-        Node next = null;
-
-        int count = 0;
-
-        while (count++ < k && curr != null) {
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        if (next != null) {
-            head.next = reverseEveryK(next, k);
-        }
-
-        head = prev;
-
-        return head;
-    }
-
-    public String reverseString(String s) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = s.length() - 1; i >= 0; i--) {
-            sb.append(s.charAt(i));
-        }
-        return sb.toString();
-    }
+//    public String reverseString(String s) {
+//        StringBuilder sb = new StringBuilder();
+//        for (int i = s.length() - 1; i >= 0; i--) {
+//            sb.append(s.charAt(i));
+//        }
+//        return sb.toString();
+//    }
 /*******************************************************/
     public static char[] reverseStringArray(String s) {
         char[] toReturn = s.toCharArray();
@@ -203,6 +204,7 @@ public class MicrosoftPrep {
     }
 
     /********************************************************************************************************************/
+
 
 //    // Returns a HashSet of the indices changed to 2
 //    private static HashSet<Index> BFS(int[][] arr, Index index) {
@@ -1122,27 +1124,27 @@ public class MicrosoftPrep {
             }
         }
 
-        public static void main(String args[] ) throws Exception {
-
-            Scanner scan = new Scanner(System.in);
-            List<Entry> entries = new ArrayList<>();
-
-            String[] startString = scan.next().split("[-,]+");
-            String[] endString = scan.next().split("[-,]+");
-
-            Entry start = new Entry(Integer.parseInt(startString[0]), Integer.parseInt(startString[1]), null, null, null);
-            Entry end = new Entry(Integer.parseInt(endString[0]), Integer.parseInt(endString[1]), null, null, null);
-
-            while (scan.hasNext()) {
-                String[] date = scan.next().split("[-,]+");
-                String type = scan.next();
-                int number = scan.nextInt();
-
-                entries.add(new Entry(Integer.parseInt(date[0]), Integer.parseInt(date[1]), new ArrayList<String>(){{add(type);}}, new ArrayList<Integer>(){{add(number);}}, date[0] + "-" + date[1]));
-            }
-
-            printInformation(start, end, entries);
-        }
+//        public static void main(String args[] ) throws Exception {
+//
+//            Scanner scan = new Scanner(System.in);
+//            List<Entry> entries = new ArrayList<>();
+//
+//            String[] startString = scan.next().split("[-,]+");
+//            String[] endString = scan.next().split("[-,]+");
+//
+//            Entry start = new Entry(Integer.parseInt(startString[0]), Integer.parseInt(startString[1]), null, null, null);
+//            Entry end = new Entry(Integer.parseInt(endString[0]), Integer.parseInt(endString[1]), null, null, null);
+//
+//            while (scan.hasNext()) {
+//                String[] date = scan.next().split("[-,]+");
+//                String type = scan.next();
+//                int number = scan.nextInt();
+//
+//                entries.add(new Entry(Integer.parseInt(date[0]), Integer.parseInt(date[1]), new ArrayList<String>(){{add(type);}}, new ArrayList<Integer>(){{add(number);}}, date[0] + "-" + date[1]));
+//            }
+//
+//            printInformation(start, end, entries);
+//        }
 
         private static void printInformation(Entry start, Entry end, List<Entry> entries) {
             Comparator<Entry> comparator = new EntryComparator();
@@ -1220,6 +1222,11 @@ public class MicrosoftPrep {
             this.i = i;
             this.j = j;
             this.c = c;
+        }
+
+        public Index(int i, int j) {
+            this.i = i;
+            this.j = j;
         }
     }
 
@@ -1696,10 +1703,173 @@ public class MicrosoftPrep {
         return sum;
     }
 
-    public int lengthOfLIS(int[] nums) {
-        
+    static boolean pythagTriplet(int[] arr) {
+
+        int[] squaredValues = new int[arr.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            squaredValues[i] = arr[i]*arr[i];
+        }
+
+        Arrays.sort(squaredValues);
+
+        for (int i = arr.length - 1; i > 1; i--) {
+
+            int left = 0;
+            int right = i - 1;
+
+            while (left < right) {
+                if (squaredValues[left] + squaredValues[right] == squaredValues[i]) {
+                    return true;
+                }
+                if (squaredValues[left] + squaredValues[right] < squaredValues[i]) {
+                    left++;
+                } else {
+                    right--;
+                }
+            }
+        }
+        return false;
     }
 
+    static String reverseString(char[] sentence) {
+        int left = 0;
+        int right = sentence.length - 1;
+
+        while (left < right) {
+            char temp = sentence[left];
+            sentence[left++] = sentence[right];
+            sentence[right--] = temp;
+        }
+
+        left = sentence.length - 1;
+        right = sentence.length -1;
+
+        while (left >= 0) {
+            if (sentence[left] == ' ' || left == 0) {
+                int left_swap = left + 1;
+                if (left == 0) {
+                    left_swap = left;
+                }
+                int right_swap = right;
+                while (left_swap < right_swap) {
+                    char temp = sentence[left_swap];
+                    sentence[left_swap++] = sentence[right_swap];
+                    sentence[right_swap--] = temp;
+                }
+                if (left == 0) {
+
+                } else {
+                    right = left - 1;
+                }
+            }
+            left--;
+        }
+
+        return new String(sentence);
+    }
+
+//    static TreeNode prev = null;
+//    static TreeNode head = null;
+//
+//    static void BTtoDLL(TreeNode root) {
+//        if (root == null) {
+//            return;
+//        }
+//
+//        BTtoDLL(root.left);
+//
+//        if (prev == null) {
+//            head = root;
+//        } else {
+//            root.left = prev;
+//            prev.right = root;
+//        }
+//        prev = root;
+//
+//        BTtoDLL(root.right);
+//    }
+
+    static TreeNode head = null;
+
+    static void BTtoDLL(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+
+        BTtoDLL(root.right);
+
+        root.right = head;
+
+        if (head != null) {
+            head.left = root;
+        }
+
+        head = root;
+
+        BTtoDLL(root.left);
+    }
+
+    static TreeNode LCA(TreeNode root, int a, int b) {
+        if (root == null) {
+            return null;
+        }
+
+        if (root.data == a || root.data == b) {
+            return root;
+        }
+
+        TreeNode left = LCA(root.left, a, b);
+        TreeNode right = LCA(root.right, a, b);
+
+        if (left != null && right != null) {
+            return root;
+        }
+
+        return (left != null) ? left : right;
+    }
+
+
+
     public static void main(String[] args) {
+
+    }
+    
+}
+
+class SpecialStack {
+
+    Stack<Integer> minStack;
+    Stack<Integer> normalStack;
+    int size;
+
+    SpecialStack() {
+        this.size = 0;
+        this.minStack = new Stack<>();
+        this.normalStack = new Stack<>();
+    }
+
+    void push(int item) {
+        if (item < minStack.peek()) {
+            minStack.push(item);
+        } else {
+            minStack.push(minStack.peek());
+        }
+        normalStack.push(item);
+        this.size++;
+    }
+
+    int pop(int item) {
+        minStack.pop();
+        this.size--;  // throw exception if less than 0
+        return normalStack.pop();
+    }
+
+    boolean isEmpty() {
+        return size == 0;
+    }
+
+    int min() {
+        return minStack.peek();
     }
 }
